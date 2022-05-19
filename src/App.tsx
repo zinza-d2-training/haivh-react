@@ -6,13 +6,13 @@ import LoginPage from './pages/LoginPage';
 import { Counter } from './features/counter/Counter';
 function App() {
   return (
-    <>
-      <Counter />
-    </>
-    // <Routes>
-    //   <Route path="/" element={<LoginPage />}></Route>
-    //   <Route path="/forgotPass" element={<ForgotPage />}></Route>
-    // </Routes>
+    // <>
+    //   <Counter />
+    // </>
+    <Routes>
+      <Route path="/" element={<LoginPage />}></Route>
+      <Route path="/forgotPass" element={<ForgotPage />}></Route>
+    </Routes>
   );
 }
 
