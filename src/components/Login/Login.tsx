@@ -1,32 +1,62 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, TextField, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+
 import Side_Left from '../../img/Side_Left.png';
 import './Login.css';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { green, lightGreen } from '@mui/material/colors';
 
 import { incrementAsync } from '../../features/user/userSlice';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { LoadingButton } from '@mui/lab';
+
+interface FormData {
+  email: string;
+  password: string;
+}
+
+const defaultValues = {
+  email: '',
+  password: ''
+};
+
+const schema = yup
+  .object({
+    email: yup.string().email().required(),
+    password: yup
+      .string()
+      .required()
+      .min(8)
+      .matches(/^\S*$/, 'Mật khẩu không được có khoảng trắng')
+  })
+  .required();
 
 const Login = () => {
   const loadingStatus = useAppSelector((state) => state.user.loading);
   const dispatch = useAppDispatch();
-  // const [userInfo, setUserInfo] = useState({});
   const {
-    register,
+    control,
     handleSubmit,
-    formState: { errors }
-  } = useForm();
+    formState: { isValid }
+  } = useForm<FormData>({
+    defaultValues,
+    mode: 'onChange',
+    resolver: yupResolver(schema)
+  });
 
   const navigate = useNavigate();
+
+  const onSubmit = async (data: FormData) => {
+    await dispatch(incrementAsync(data));
+    navigate('/forgotPass');
+  };
+
   return (
     <>
       <div className="container">
-        {/* <form onSubmit={handleSubmit((data) => console.log(data))}>
-        <input type="text" {...register('test')} />
-        <input type="submit" name="" id="" />
-      </form> */}
         <img className="side-left__img" src={Side_Left} alt="" />
 
         <div className="side-right">
@@ -40,82 +70,47 @@ const Login = () => {
               }}>
               Đăng nhập vào tài khoản
             </Typography>
-            <form
-              className="side-right_form"
-              onSubmit={handleSubmit(async (data) => {
-                await dispatch(incrementAsync(data));
-                navigate('/forgotPass');
-              })}>
+            <form className="side-right_form" onSubmit={handleSubmit(onSubmit)}>
               <div className="form-input">
-                <Typography
-                  align="left"
-                  sx={{
-                    marginBottom: '5px'
-                  }}>
+                <Typography align="left" gutterBottom>
                   Email
                 </Typography>
-                <TextField
-                  placeholder="Email"
-                  sx={{
-                    width: '100%',
-                    marginBottom: '5px'
-                  }}
-                  {...register('email', {
-                    required: 'Hãy nhập email',
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: 'invalid email address'
-                    }
-                  })}
+                <Controller
+                  name="email"
+                  control={control}
+                  render={({ field, fieldState: { error } }) => (
+                    <TextField
+                      sx={{
+                        width: '100%',
+                        marginBottom: '5px'
+                      }}
+                      {...field}
+                      error={!!error}
+                      helperText={error?.message}
+                    />
+                  )}
                 />
-                {errors.email?.message && (
-                  <Typography
-                    align="left"
-                    sx={{
-                      marginBottom: '16px',
-                      color: 'red'
-                    }}>
-                    {errors.email.message}
-                  </Typography>
-                )}
               </div>
               <div className="form-input">
-                <Typography
-                  align="left"
-                  sx={{
-                    marginBottom: '5px'
-                  }}>
+                <Typography align="left" gutterBottom>
                   Mật khẩu
                 </Typography>
-                <TextField
-                  placeholder="Mật khẩu"
-                  type="password"
-                  sx={{
-                    width: '100%',
-                    marginBottom: '24px'
-                  }}
-                  {...register('password', {
-                    required: 'Hãy nhập mật khẩu',
-                    minLength: {
-                      value: 8,
-                      message: 'Độ dài tối thiếu 8 ký tự'
-                    },
-                    pattern: {
-                      value: /^\S*$/,
-                      message: 'Mật khẩu không được có khoảng trắng'
-                    }
-                  })}
+                <Controller
+                  name="password"
+                  control={control}
+                  render={({ field, fieldState: { error } }) => (
+                    <TextField
+                      type="password"
+                      sx={{
+                        width: '100%',
+                        mb: 3
+                      }}
+                      {...field}
+                      error={!!error}
+                      helperText={error?.message}
+                    />
+                  )}
                 />
-                {errors.password?.message && (
-                  <Typography
-                    align="left"
-                    sx={{
-                      marginBottom: '16px',
-                      color: 'red'
-                    }}>
-                    {errors.password.message}
-                  </Typography>
-                )}
               </div>
               <Link to="/forgotPass">
                 <Typography
@@ -123,54 +118,36 @@ const Login = () => {
                   sx={{
                     fontSize: '14px',
                     display: 'block',
-                    marginBottom: '24px',
+                    mb: 3,
                     color: '#3949AB'
                   }}>
                   Quên mật khẩu?
                 </Typography>
               </Link>
-              {Object.keys(errors).length === 0 ? (
-                <Button
-                  // onClick={() => dispatch(incrementAsync(userInfo))}
-                  type="submit"
-                  sx={{
-                    backgroundColor: green[400],
-                    width: '100%',
-                    borderRadius: '5px',
-                    padding: '15px 0',
-                    color: '#fff',
-                    marginBottom: '24px',
-                    '&:hover': {
-                      backgroundColor: green[500]
-                    }
-                  }}>
-                  Đăng nhập
-                </Button>
-              ) : (
-                <Button
-                  disabled
-                  type="submit"
-                  sx={{
-                    backgroundColor: green[400],
-                    width: '100%',
-                    borderRadius: '5px',
-                    padding: '15px 0',
-                    color: '#fff',
-                    marginBottom: '24px',
-                    '&:hover': {
-                      backgroundColor: green[500]
-                    }
-                  }}>
-                  Đăng nhập
-                </Button>
-              )}
+              <LoadingButton
+                loading={loadingStatus}
+                disabled={!isValid}
+                type="submit"
+                sx={{
+                  backgroundColor: green[400],
+                  width: '100%',
+                  borderRadius: '5px',
+                  padding: '15px 0',
+                  color: '#fff',
+                  mb: 3,
+                  '&:hover': {
+                    backgroundColor: green[500]
+                  }
+                }}>
+                Đăng nhập
+              </LoadingButton>
             </form>
             <Typography
               sx={{
                 fontSize: '16px',
                 fontWeight: '400',
                 lineHeight: '24px',
-                marginBottom: '24px'
+                mb: 3
               }}>
               Hoặc đăng ký tài khoản nếu bạn chưa đăng ký
             </Typography>
@@ -192,12 +169,6 @@ const Login = () => {
           </div>
         </div>
       </div>
-
-      {loadingStatus && (
-        <div className="modal">
-          <div className="loader"></div>
-        </div>
-      )}
     </>
   );
 };
