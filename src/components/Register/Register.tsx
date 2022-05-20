@@ -380,7 +380,7 @@ const Register = () => {
                 </Typography>
               </Typography>
               <FormControl fullWidth sx={{ mb: 2 }}>
-                <InputLabel id="demo-simple-select-label">City</InputLabel>
+                <InputLabel id="input-label">City</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -415,7 +415,7 @@ const Register = () => {
                 </Typography>
               </Typography>
               <FormControl fullWidth sx={{ mb: 2 }}>
-                <InputLabel id="demo-simple-select-label">District</InputLabel>
+                <InputLabel id="input-label">District</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -450,7 +450,7 @@ const Register = () => {
                 </Typography>
               </Typography>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Ward</InputLabel>
+                <InputLabel id="input-label">Ward</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
