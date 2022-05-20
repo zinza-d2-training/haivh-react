@@ -143,6 +143,8 @@ const Register = () => {
     resolver: yupResolver(schema)
   });
 
+  console.log(isValid);
+
   const [date, setDate] = useState<Date | null>(null);
   const [cityId, setCity] = useState('');
   const handleChangeCity = (e: SelectChangeEvent) => {
@@ -379,7 +381,7 @@ const Register = () => {
                   (*)
                 </Typography>
               </Typography>
-              <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormControl fullWidth required sx={{ mb: 2 }}>
                 <InputLabel id="input-label">City</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
@@ -414,7 +416,7 @@ const Register = () => {
                   (*)
                 </Typography>
               </Typography>
-              <FormControl fullWidth sx={{ mb: 2 }}>
+              <FormControl fullWidth required sx={{ mb: 2 }}>
                 <InputLabel id="input-label">District</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
@@ -449,7 +451,7 @@ const Register = () => {
                   (*)
                 </Typography>
               </Typography>
-              <FormControl fullWidth>
+              <FormControl fullWidth required>
                 <InputLabel id="input-label">Ward</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
