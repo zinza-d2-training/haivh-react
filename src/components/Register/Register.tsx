@@ -159,13 +159,9 @@ const Register = () => {
     setWard(e.target.value);
   };
 
-  const filterDistrict = fakeData.find((data) => data.id === +cityId);
+  const districts = fakeData.find((data) => data.id === +cityId);
 
-  const filterWard = filterDistrict?.districts.find(
-    (data) => data.id === +districtId
-  );
-
-  console.log(filterWard);
+  const wards = districts?.districts.find((data) => data.id === +districtId);
 
   return (
     <>
@@ -422,7 +418,7 @@ const Register = () => {
                   value={districtId}
                   onChange={handleChangeDistrict}
                   label="District">
-                  {filterDistrict?.districts.map((district, index) => (
+                  {districts?.districts.map((district, index) => (
                     <MenuItem key={index} value={district.id}>
                       {district.name}
                     </MenuItem>
@@ -457,7 +453,7 @@ const Register = () => {
                   value={wardId}
                   label="Ward"
                   onChange={handleChangeWard}>
-                  {filterWard?.wards.map((ward, index) => (
+                  {wards?.wards.map((ward, index) => (
                     <MenuItem key={index} value={ward.id}>
                       {ward.name}
                     </MenuItem>
