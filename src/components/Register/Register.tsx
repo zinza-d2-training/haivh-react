@@ -52,68 +52,80 @@ const schema = yup
 
 const fakeData = [
   {
-    idCity: 1,
-    city: 'Hà Nội',
+    id: 1,
+    name: 'Hà Nội',
     districts: [
       {
-        idDistrict: 1,
-        districtName: 'Hoàn Kiếm',
+        id: 1,
+        name: 'Hoàn Kiếm',
+        parent_id: 1,
         wards: [
           {
-            wardId: 1,
-            wardName: 'Chương Dương'
+            id: 1,
+            name: 'Chương Dương',
+            parent_id: 1
           },
           {
-            wardId: 2,
-            wardName: 'Cửa Nam'
+            id: 2,
+            name: 'Cửa Nam',
+            parent_id: 1
           }
         ]
       },
       {
-        idDistrict: 2,
-        districtName: 'Hà Đông',
+        id: 2,
+        name: 'Hà Đông',
+        parent_id: 1,
         wards: [
           {
-            wardId: 1,
-            wardName: 'La Khê'
+            id: 1,
+            name: 'La Khê',
+            parent_id: 2
           },
           {
-            wardId: 2,
-            wardName: 'Nguyễn Trãi'
+            id: 2,
+            name: 'Nguyễn Trãi',
+            parent_id: 2
           }
         ]
       }
     ]
   },
   {
-    idCity: 2,
-    city: 'Hồ Chí Minh',
+    id: 2,
+    name: 'Hồ Chí Minh',
     districts: [
       {
-        idDistrict: 1,
-        districtName: 'Quận 1',
+        id: 1,
+        name: 'Quận 1',
+        parent_id: 2,
         wards: [
           {
-            wardId: 1,
-            wardName: 'Bến Nghé'
+            id: 1,
+            name: 'Bến Nghé',
+            parent_id: 1
           },
           {
-            wardId: 2,
-            wardName: 'Bến Thành'
+            id: 2,
+            name: 'Bến Thành',
+            parent_id: 1
           }
         ]
       },
       {
-        idDistrict: 2,
-        districtName: 'Quận 2',
+        id: 2,
+        name: 'Quận 2',
+        parent_id: 2,
         wards: [
           {
-            wardId: 1,
-            wardName: 'An Khánh'
+            id: 1,
+            name: 'An Khánh',
+            parent_id: 2
           },
           {
-            wardId: 2,
-            wardName: 'An Phú'
+            id: 2,
+            name: 'An Phú',
+            parent_id: 2
           }
         ]
       }
@@ -147,11 +159,13 @@ const Register = () => {
     setWard(e.target.value);
   };
 
-  const filterDistrict = fakeData.find((data) => data.idCity === +cityId);
+  const filterDistrict = fakeData.find((data) => data.id === +cityId);
 
   const filterWard = filterDistrict?.districts.find(
-    (data) => data.idDistrict === +districtId
+    (data) => data.id === +districtId
   );
+
+  console.log(filterWard);
 
   return (
     <>
@@ -374,8 +388,8 @@ const Register = () => {
                   label="Age"
                   onChange={handleChangeCity}>
                   {fakeData.map((city, index) => (
-                    <MenuItem key={index} value={city.idCity}>
-                      {city.city}
+                    <MenuItem key={index} value={city.id}>
+                      {city.name}
                     </MenuItem>
                   ))}
                 </Select>
@@ -409,8 +423,8 @@ const Register = () => {
                   onChange={handleChangeDistrict}
                   label="District">
                   {filterDistrict?.districts.map((district, index) => (
-                    <MenuItem key={index} value={district.idDistrict}>
-                      {district.districtName}
+                    <MenuItem key={index} value={district.id}>
+                      {district.name}
                     </MenuItem>
                   ))}
                 </Select>
@@ -444,8 +458,8 @@ const Register = () => {
                   label="Ward"
                   onChange={handleChangeWard}>
                   {filterWard?.wards.map((ward, index) => (
-                    <MenuItem key={index} value={ward.wardId}>
-                      {ward.wardName}
+                    <MenuItem key={index} value={ward.id}>
+                      {ward.name}
                     </MenuItem>
                   ))}
                 </Select>
