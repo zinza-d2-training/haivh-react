@@ -9,9 +9,10 @@ import LoginPage from './pages/LoginPage';
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Register />}></Route>
+      <Route path="/" element={<HomePage />}></Route>
       <Route path="/login" element={<LoginPage />}></Route>
       <Route path="/forgotPass" element={<ForgotPage />}></Route>
+      <Route path="/register" element={<Register />}></Route>
     </Routes>
   );
 }
