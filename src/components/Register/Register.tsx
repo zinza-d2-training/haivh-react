@@ -143,8 +143,6 @@ const Register = () => {
     resolver: yupResolver(schema)
   });
 
-  console.log(isValid);
-
   const [date, setDate] = useState<Date | null>(null);
   const [cityId, setCity] = useState('');
   const handleChangeCity = (e: SelectChangeEvent) => {
