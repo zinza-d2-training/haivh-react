@@ -27,7 +27,7 @@ const schema = yup.object({
 const ForgotPassword = () => {
   const loadingStatus = useAppSelector((state) => state.user.loading);
   const dispatch = useAppDispatch();
-  const navgigate = useNavigate();
+  const navigate = useNavigate();
 
   const {
     control,
@@ -41,7 +41,7 @@ const ForgotPassword = () => {
 
   const onSubmit = async (data: FormData) => {
     await dispatch(forgotAsync(data.email));
-    navgigate('/login');
+    navigate('/login');
   };
   return (
     <>
