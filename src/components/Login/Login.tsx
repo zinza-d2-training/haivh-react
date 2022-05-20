@@ -9,7 +9,7 @@ import './Login.css';
 import { Controller, useForm } from 'react-hook-form';
 import { green, lightGreen } from '@mui/material/colors';
 
-import { incrementAsync } from '../../features/user/userSlice';
+import { loginAsync } from '../../features/user/userSlice';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { LoadingButton } from '@mui/lab';
 
@@ -50,7 +50,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data: FormData) => {
-    await dispatch(incrementAsync(data));
+    await dispatch(loginAsync(data));
     navigate('/forgotPass');
   };
 
