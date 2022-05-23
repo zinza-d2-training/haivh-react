@@ -30,9 +30,9 @@ interface FormData {
   name: string;
   date: string;
   gender: string;
-  province_id: number;
-  district_id: number;
-  ward_id: number;
+  province_id: number | string;
+  district_id: number | string;
+  ward_id: number | string;
 }
 
 const defaultValues = {
@@ -185,11 +185,11 @@ const Register = () => {
   useEffect(() => {
     const subscription = watch((value, { name, type }) => {
       if (name === 'province_id') {
-        setValue('district_id', 0);
-        setValue('ward_id', 0);
+        setValue('district_id', '');
+        setValue('ward_id', '');
       }
       if (name === 'district_id') {
-        setValue('ward_id', 0);
+        setValue('ward_id', '');
       }
     });
     return () => subscription.unsubscribe();
