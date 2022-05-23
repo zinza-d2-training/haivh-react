@@ -9,21 +9,16 @@
   height: 100vh;
 }
 
-/* .side-left {
-  width: 50%;
-  height: 100vh;
-} */
-
 .side-left__img {
   width: 50%;
   height: 100vh;
 }
 
-.side-right {
+.side-right-login {
   width: 50%;
+  margin-top: 260px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
