@@ -1,0 +1,34 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.side-left__img {
+  width: 50%;
+}
+
+.side-right__register {
+  width: 50%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  left: 50%;
+  overflow-y: scroll;
+}
+
+.side-right-form__register {
+  width: 400px;
+  height: 865px;
+}
+
+.form-input__register {
+  margin-top: 16px;
+}

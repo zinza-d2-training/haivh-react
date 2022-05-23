@@ -54,12 +54,15 @@ const Login = () => {
     navigate('/forgotPass');
   };
 
+  const handleClickRegister = () => {
+    navigate('/register');
+  };
   return (
     <>
       <div className="container">
         <img className="side-left__img" src={Side_Left} alt="" />
 
-        <div className="side-right">
+        <div className="side-right-login">
           <div className="side-right__container">
             <Typography
               variant="h4"
@@ -163,7 +166,8 @@ const Login = () => {
                   borderColor: lightGreen[500],
                   backgroundColor: '#fff'
                 }
-              }}>
+              }}
+              onClick={handleClickRegister}>
               Đăng ký
             </Button>
           </div>
