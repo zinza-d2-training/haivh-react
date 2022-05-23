@@ -54,6 +54,9 @@ const Login = () => {
     navigate('/forgotPass');
   };
 
+  const handleClickRegister = () => {
+    navigate('/register');
+  };
   return (
     <>
       <div className="container">
@@ -163,7 +166,8 @@ const Login = () => {
                   borderColor: lightGreen[500],
                   backgroundColor: '#fff'
                 }
-              }}>
+              }}
+              onClick={handleClickRegister}>
               Đăng ký
             </Button>
           </div>
