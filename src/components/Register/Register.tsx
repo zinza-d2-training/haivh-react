@@ -1,15 +1,24 @@
-import React, { useState } from 'react';
-import { Button, Stack, TextField, Typography } from '@mui/material';
+import React, { useEffect, useMemo } from 'react';
+import {
+  Button,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Stack,
+  TextField,
+  Typography
+} from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import { DatePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { ArrowRightAlt } from '@mui/icons-material';
+import FormHelperText from '@mui/material/FormHelperText';
 
 import './Register.css';
 import Side_Left from '../../img/Side_Left.png';
@@ -21,9 +30,9 @@ interface FormData {
   name: string;
   date: string;
   gender: string;
-  city: string;
-  district: string;
-  wards: string;
+  province_id: number;
+  district_id: number;
+  ward_id: number;
 }
 
 const defaultValues = {
@@ -33,9 +42,9 @@ const defaultValues = {
   name: '',
   date: '',
   gender: '',
-  city: '',
-  district: '',
-  wards: ''
+  province_id: 0,
+  district_id: 0,
+  ward_id: 0
 };
 const schema = yup
   .object({
@@ -46,11 +55,36 @@ const schema = yup
       .required()
       .min(8)
       .matches(/^\S*$/, 'Mật khẩu không được có khoảng trắng'),
-    gender: yup.string().required()
+    gender: yup.string().required(),
+    date: yup.string().nullable().required('Date is required field'),
+    province_id: yup.number().min(1, 'Thông tin không được để trống'),
+    district_id: yup
+      .number()
+      .required()
+      .min(1, 'Thông tin không được để trống'),
+    ward_id: yup.number().required().min(1, 'Thông tin không được để trống')
   })
   .required();
 
-const fakeData = [
+interface Ward {
+  id: number;
+  name: string;
+  district_id: number;
+}
+
+interface District {
+  id: number;
+  name: string;
+  wards: Ward[];
+  province_id: number;
+}
+interface Province {
+  id: number;
+  name: string;
+  districts: District[];
+}
+
+const provinces: Province[] = [
   {
     id: 1,
     name: 'Hà Nội',
@@ -58,34 +92,34 @@ const fakeData = [
       {
         id: 1,
         name: 'Hoàn Kiếm',
-        parent_id: 1,
+        province_id: 1,
         wards: [
           {
             id: 1,
             name: 'Chương Dương',
-            parent_id: 1
+            district_id: 1
           },
           {
             id: 2,
             name: 'Cửa Nam',
-            parent_id: 1
+            district_id: 1
           }
         ]
       },
       {
         id: 2,
         name: 'Hà Đông',
-        parent_id: 1,
+        province_id: 1,
         wards: [
           {
             id: 1,
             name: 'La Khê',
-            parent_id: 2
+            district_id: 2
           },
           {
             id: 2,
             name: 'Nguyễn Trãi',
-            parent_id: 2
+            district_id: 2
           }
         ]
       }
@@ -98,34 +132,34 @@ const fakeData = [
       {
         id: 1,
         name: 'Quận 1',
-        parent_id: 2,
+        province_id: 2,
         wards: [
           {
             id: 1,
             name: 'Bến Nghé',
-            parent_id: 1
+            district_id: 1
           },
           {
             id: 2,
             name: 'Bến Thành',
-            parent_id: 1
+            district_id: 1
           }
         ]
       },
       {
         id: 2,
         name: 'Quận 2',
-        parent_id: 2,
+        province_id: 2,
         wards: [
           {
             id: 1,
             name: 'An Khánh',
-            parent_id: 2
+            district_id: 2
           },
           {
             id: 2,
             name: 'An Phú',
-            parent_id: 2
+            district_id: 2
           }
         ]
       }
@@ -136,32 +170,42 @@ const Register = () => {
   const {
     control,
     handleSubmit,
-    formState: { isValid }
+    formState: { isValid },
+    setValue,
+    watch
   } = useForm<FormData>({
     defaultValues,
     mode: 'onChange',
     resolver: yupResolver(schema)
   });
 
-  const [date, setDate] = useState<Date | null>(null);
-  const [cityId, setCity] = useState('');
-  const handleChangeCity = (e: SelectChangeEvent) => {
-    setCity(e.target.value);
-  };
+  const provinceId = watch('province_id');
+  const districtId = watch('district_id');
 
-  const [districtId, setDistrict] = useState('');
-  const handleChangeDistrict = (e: SelectChangeEvent) => {
-    setDistrict(e.target.value);
-  };
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) => {
+      if (name === 'province_id') {
+        setValue('district_id', 0);
+        setValue('ward_id', 0);
+      }
+      if (name === 'district_id') {
+        setValue('ward_id', 0);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [setValue, watch]);
 
-  const [wardId, setWard] = useState('');
-  const handleChangeWard = (e: SelectChangeEvent) => {
-    setWard(e.target.value);
-  };
+  const districts = useMemo(() => {
+    return (
+      provinces.find((province) => province.id === provinceId)?.districts ?? []
+    );
+  }, [provinceId]);
 
-  const districts = fakeData.find((data) => data.id === +cityId);
-
-  const wards = districts?.districts.find((data) => data.id === +districtId);
+  const wards = useMemo(() => {
+    return (
+      districts.find((district) => district.id === districtId)?.wards ?? []
+    );
+  }, [districtId, districts]);
 
   return (
     <>
@@ -182,7 +226,7 @@ const Register = () => {
 
           <form
             className="side-right-form__register"
-            onSubmit={handleSubmit(() => console.log(date))}>
+            onSubmit={handleSubmit(() => {})}>
             <div className="form-input__register">
               <Typography
                 align="left"
@@ -312,10 +356,23 @@ const Register = () => {
               </Typography>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Stack sx={{ width: '100%', mb: 4 }}>
-                  <DatePicker
-                    renderInput={(param) => <TextField {...param} />}
-                    value={date}
-                    onChange={(newDate) => setDate(newDate)}
+                  <Controller
+                    name="date"
+                    control={control}
+                    render={({ field, fieldState: { error } }) => (
+                      <FormControl>
+                        <DatePicker
+                          renderInput={(param) => (
+                            <TextField
+                              {...param}
+                              error={!!error}
+                              helperText={error?.message}
+                            />
+                          )}
+                          {...field}
+                        />
+                      </FormControl>
+                    )}
                   />
                 </Stack>
               </LocalizationProvider>
@@ -343,16 +400,32 @@ const Register = () => {
                 name="gender"
                 control={control}
                 render={({ field, fieldState: { error } }) => (
-                  <TextField
-                    placeholder="Giới tính"
-                    sx={{
-                      width: '100%',
-                      mb: 2
-                    }}
-                    {...field}
-                    error={!!error}
-                    helperText={error?.message}
-                  />
+                  <FormControl>
+                    <RadioGroup
+                      sx={{ mb: 2 }}
+                      row
+                      aria-labelledby="demo-controlled-radio-buttons-group"
+                      {...field}
+                      onChange={(event) => {
+                        field.onChange(event.target.value);
+                      }}>
+                      <FormControlLabel
+                        value="nale"
+                        control={<Radio />}
+                        label="Nam"
+                      />
+                      <FormControlLabel
+                        value="female"
+                        control={<Radio />}
+                        label="Nữ"
+                      />
+                    </RadioGroup>
+                    {error && (
+                      <FormHelperText sx={{ color: 'red' }}>
+                        {error?.message}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
                 )}
               />
             </div>
@@ -375,21 +448,34 @@ const Register = () => {
                   (*)
                 </Typography>
               </Typography>
-              <FormControl fullWidth required sx={{ mb: 2 }}>
-                <InputLabel id="input-label">City</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={cityId}
-                  label="Age"
-                  onChange={handleChangeCity}>
-                  {fakeData.map((city, index) => (
-                    <MenuItem key={index} value={city.id}>
-                      {city.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <Controller
+                name="province_id"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <FormControl fullWidth required sx={{ mb: 2 }}>
+                    <InputLabel id="input-label">Province</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="province-select"
+                      label="province"
+                      {...field}
+                      onChange={(event) => {
+                        field.onChange(event.target.value);
+                      }}>
+                      {provinces.map((province) => (
+                        <MenuItem key={province.id} value={province.id}>
+                          {province.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {error && (
+                      <FormHelperText sx={{ color: 'red' }}>
+                        {error?.message}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
+                )}
+              />
             </div>
 
             <div className="form-input__register">
@@ -410,21 +496,35 @@ const Register = () => {
                   (*)
                 </Typography>
               </Typography>
-              <FormControl fullWidth required sx={{ mb: 2 }}>
-                <InputLabel id="input-label">District</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={districtId}
-                  onChange={handleChangeDistrict}
-                  label="District">
-                  {districts?.districts.map((district, index) => (
-                    <MenuItem key={index} value={district.id}>
-                      {district.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <Controller
+                render={({ field, fieldState: { error } }) => (
+                  <FormControl fullWidth required sx={{ mb: 2 }}>
+                    <InputLabel id="input-label">District</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="district-select"
+                      label="district"
+                      {...field}
+                      fullWidth
+                      onChange={(event) => {
+                        field.onChange(event.target.value);
+                      }}>
+                      {districts.map((district) => (
+                        <MenuItem key={district.id} value={district.id}>
+                          {district.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {error && (
+                      <FormHelperText sx={{ color: 'red' }}>
+                        {error?.message}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
+                )}
+                name="district_id"
+                control={control}
+              />
             </div>
 
             <div className="form-input__register">
@@ -445,21 +545,34 @@ const Register = () => {
                   (*)
                 </Typography>
               </Typography>
-              <FormControl fullWidth required>
-                <InputLabel id="input-label">Ward</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={wardId}
-                  label="Ward"
-                  onChange={handleChangeWard}>
-                  {wards?.wards.map((ward, index) => (
-                    <MenuItem key={index} value={ward.id}>
-                      {ward.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+              <Controller
+                name="ward_id"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <FormControl fullWidth required sx={{ mb: 2 }}>
+                    <InputLabel id="input-label">Ward</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="ward-select"
+                      label="ward"
+                      {...field}
+                      onChange={(event) => {
+                        field.onChange(event.target.value);
+                      }}>
+                      {wards.map((ward) => (
+                        <MenuItem key={ward.id} value={ward.id}>
+                          {ward.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    {error && (
+                      <FormHelperText sx={{ color: 'red' }}>
+                        {error?.message}
+                      </FormHelperText>
+                    )}
+                  </FormControl>
+                )}
+              />
             </div>
 
             <Button
