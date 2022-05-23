@@ -455,7 +455,8 @@ const Register = () => {
                   <FormControl fullWidth required sx={{ mb: 2 }}>
                     <InputLabel id="input-label">Province</InputLabel>
                     <Select
-                      labelId="demo-simple-select-label"
+                      defaultValue=""
+                      labelId="province-label-id"
                       id="province-select"
                       label="province"
                       {...field}
@@ -501,7 +502,8 @@ const Register = () => {
                   <FormControl fullWidth required sx={{ mb: 2 }}>
                     <InputLabel id="input-label">District</InputLabel>
                     <Select
-                      labelId="demo-simple-select-label"
+                      defaultValue=""
+                      labelId="district-label-id"
                       id="district-select"
                       label="district"
                       {...field}
@@ -552,7 +554,8 @@ const Register = () => {
                   <FormControl fullWidth required sx={{ mb: 2 }}>
                     <InputLabel id="input-label">Ward</InputLabel>
                     <Select
-                      labelId="demo-simple-select-label"
+                      defaultValue=""
+                      labelId="ward-label-id"
                       id="ward-select"
                       label="ward"
                       {...field}
