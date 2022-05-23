@@ -1,0 +1,20 @@
+.composite-container {
+  background-color: #f7fbfe;
+  padding: 16px 36px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.composite-item {
+  width: calc(100% / 3);
+  height: 100px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.composite-item__logo {
+  width: 46px;
+  height: 44px;
+  margin: 0 16px;
+}

@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.header-container {
+  width: 100%;
+  height: 80px;
+  background: linear-gradient(133deg, #ed1b23, #2e3091, #253494);
+  display: flex;
+  justify-content: space-between;
+}
+
+.header-brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0 15px 36px;
+}
+
+.header-brand__logo {
+  width: 42px;
+  height: 50px;
+}
+
+.header-menu {
+  margin: 15px 36px 15px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-menu__list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+}
+
+.header-menu__item {
+  margin-right: 23px;
+}
+
+.header-menu__link {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: -0.04px;
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
