@@ -1,0 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.location-container {
+  margin: 39px 36px 37px;
+  padding: 24px 16px;
+  box-shadow: 0 4px 12px 0 rgb(34 41 47 / 12%);
+  border-radius: 10px;
+}
+
+.location-sort-container {
+  display: flex;
+  margin-bottom: 16px;
+}

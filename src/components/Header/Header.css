@@ -40,6 +40,7 @@
 
 .header-menu__item {
   margin-right: 23px;
+  position: relative;
 }
 
 .header-menu__link {
@@ -50,4 +51,50 @@
   color: #fff;
   text-decoration: none;
   cursor: pointer;
+}
+
+.header-menu__more {
+  display: none;
+  position: absolute;
+  width: 361px;
+  height: 180px;
+  background-color: #fff;
+  padding: 16px 0;
+  border-radius: 12px;
+  top: 55px;
+  left: -50px;
+  box-shadow: 0 4px 12px 0 rgb(34 41 47 / 12%);
+}
+
+.header-menu__more-list {
+  list-style: none;
+}
+
+.header-menu__more-item {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 16px 0;
+}
+
+.header-menu__more-item:hover {
+  cursor: pointer;
+  background-color: #d6cfe0;
+}
+
+.header-menu__more-icon {
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  padding: 6px;
+  width: 36px;
+  height: 36px;
+  background-color: #ede7f6;
+}
+
+.more {
+  padding: 16px 0;
+}
+.more:hover > .header-menu__more {
+  display: block;
 }
