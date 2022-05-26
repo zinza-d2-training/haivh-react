@@ -1,13 +1,11 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo } from 'react';
 import {
   DataGrid,
   GridColDef,
-  GridValueGetterParams,
   gridPageCountSelector,
   gridPageSelector,
   useGridApiContext,
-  useGridSelector,
-  GridSortApi
+  useGridSelector
 } from '@mui/x-data-grid';
 import Pagination from '@mui/material/Pagination';
 
@@ -17,9 +15,6 @@ interface DataGridProps {
     provinceId: number | string;
     wardId: number | string;
   };
-  // districtId?: number;
-  // provinceId?: number;
-  // wardId?: number;
 }
 
 interface Row {

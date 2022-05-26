@@ -139,13 +139,7 @@ const LocationSortContainer = styled(Box)`
   margin-bottom: 16px;
 `;
 const Location = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { isValid },
-    setValue,
-    watch
-  } = useForm<FormData>({
+  const { control, setValue, watch } = useForm<FormData>({
     defaultValues,
     mode: 'onChange'
   });
@@ -312,12 +306,7 @@ const Location = () => {
           </Typography>
         </Button>
       </LocationSortContainer>
-      <DataGird
-        search={search}
-        // districtId={Number(districtId) || undefined}
-        // provinceId={Number(provinceId) || undefined}
-        // wardId={Number(wardId) || undefined}
-      />
+      <DataGird search={search} />
     </Container>
   );
 };
