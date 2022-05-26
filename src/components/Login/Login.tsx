@@ -51,7 +51,7 @@ const Login = () => {
 
   const onSubmit = async (data: FormData) => {
     await dispatch(loginAsync(data));
-    navigate('/forgotPass');
+    navigate('/');
   };
 
   const handleClickRegister = () => {

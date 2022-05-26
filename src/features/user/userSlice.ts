@@ -1,7 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchForgotPass, fetchUser } from './userAPI';
+
+export interface UserInfo {
+  email: string;
+  password: string;
+}
 export interface UserState {
-  value: object;
+  value: UserInfo;
   status: 'idle' | 'loading' | 'failed';
   loading: true | false;
   token: number;
@@ -9,7 +14,10 @@ export interface UserState {
 }
 
 const initialState: UserState = {
-  value: {},
+  value: {
+    email: '',
+    password: ''
+  },
   status: 'idle',
   loading: false,
   token: 0,
@@ -18,7 +26,7 @@ const initialState: UserState = {
 
 export const loginAsync = createAsyncThunk(
   'user/fetchUser',
-  async (info: object) => {
+  async (info: UserInfo) => {
     const response = await fetchUser(info);
     // The value we return becomes the `fulfilled` action payload
     return response.data;

@@ -1,0 +1,24 @@
+.footer-container {
+  width: 100%;
+  height: 256px;
+  background-color: #2d2188;
+  padding: 32px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* position: fixed;
+  bottom: 0; */
+}
+
+.footer-license__logo {
+  width: 195px;
+  height: 89px;
+}
+
+.footer-download {
+  text-align: end;
+}
+
+.footer-download__group {
+  margin-bottom: 16px;
+}

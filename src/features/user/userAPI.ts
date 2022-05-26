@@ -1,5 +1,12 @@
-export function fetchUser(info = {}) {
-  return new Promise<{ data: object }>((resolve) =>
+import { UserInfo } from './userSlice';
+
+export function fetchUser(
+  info = {
+    email: '',
+    password: ''
+  }
+) {
+  return new Promise<{ data: UserInfo }>((resolve) =>
     setTimeout(() => resolve({ data: info }), 2000)
   );
 }
