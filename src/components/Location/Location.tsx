@@ -1,6 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react';
-
-import './Location.css';
 import {
   Button,
   FormControl,
@@ -210,6 +208,7 @@ const Location = () => {
             <FormControl sx={{ mb: 2, mr: 2, width: '260px' }}>
               <InputLabel id="input-label">Province</InputLabel>
               <Select
+                size="small"
                 defaultValue=""
                 labelId="province-label-id"
                 id="province-select"
@@ -229,7 +228,7 @@ const Location = () => {
         />
         <Controller
           render={({ field, fieldState: { error } }) => (
-            <FormControl sx={{ mb: 2, mr: 2, width: '260px' }}>
+            <FormControl size="small" sx={{ mb: 2, mr: 2, width: '260px' }}>
               <InputLabel id="input-label">District</InputLabel>
               <Select
                 disabled={!provinceId}
@@ -256,7 +255,7 @@ const Location = () => {
           name="ward_id"
           control={control}
           render={({ field, fieldState: { error } }) => (
-            <FormControl sx={{ mb: 2, mr: 2, width: '260px' }}>
+            <FormControl size="small" sx={{ mb: 2, mr: 2, width: '260px' }}>
               <InputLabel id="input-label">Ward</InputLabel>
               <Select
                 disabled={!districtId}
@@ -280,7 +279,7 @@ const Location = () => {
         <Button
           sx={{
             width: '148px',
-            height: '56px',
+            height: '40px',
             padding: '8px 16px',
             borderRadius: '8px 8px 8px 0',
             backgroundColor: '#171A88',
