@@ -1,12 +1,16 @@
-.composite-container {
+.composite {
   background-color: #f7fbfe;
-  padding: 16px 36px;
+  margin: 24px 0;
+  padding: 16px 24px;
+}
+
+.composite-container {
   display: flex;
   justify-content: space-between;
 }
 
 .composite-item {
-  width: calc(100% / 3);
+  width: 33.33%;
   height: 100px;
   background-color: #fff;
   display: flex;

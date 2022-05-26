@@ -1,3 +1,4 @@
+import { Container } from '@mui/material';
 import React from 'react';
 import Chart from '../components/Chart/Chart';
 import Composite from '../components/Composite/Composite';
@@ -10,8 +11,10 @@ const HomePage = () => {
     <div>
       <Header />
       <Composite />
-      <Chart />
-      <Location />
+      <Container maxWidth="xl">
+        <Chart />
+        <Location />
+      </Container>
       <Footer />
     </div>
   );

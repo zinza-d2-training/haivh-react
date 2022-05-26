@@ -304,56 +304,56 @@ const DataGird = ({ search }: DataGridProps) => {
     {
       field: 'index',
       headerName: 'STT',
-      width: 200,
+      width: 181.75,
       headerAlign: 'center',
       align: 'center'
     },
     {
       field: 'name',
       headerName: 'Tên điểm tiêm',
-      width: 224,
+      width: 181.75,
       headerAlign: 'center',
       align: 'center'
     },
     {
       field: 'address',
       headerName: 'Số nhà, tên đường',
-      width: 224,
+      width: 181.75,
       headerAlign: 'center',
       align: 'center'
     },
     {
       field: 'ward',
       headerName: 'Xã/Phường',
-      width: 224,
+      width: 181.75,
       headerAlign: 'center',
       align: 'center'
     },
     {
       field: 'district',
       headerName: 'Quận/Huyện',
-      width: 224,
+      width: 181.75,
       headerAlign: 'center',
       align: 'center'
     },
     {
       field: 'province',
       headerName: 'Tỉnh/Thành phố',
-      width: 224,
+      width: 181.75,
       headerAlign: 'center',
       align: 'center'
     },
     {
       field: 'leader',
       headerName: 'Người đứng đầu cơ sở tiêm chủng',
-      width: 248,
+      width: 181.75,
       headerAlign: 'center',
       align: 'center'
     },
     {
       field: 'numberTable',
       headerName: 'Số bàn tiêm',
-      width: 224,
+      width: 181.75,
       headerAlign: 'center',
       align: 'center'
     }
