@@ -1,6 +1,7 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import { Container, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
 
 import People from '../../img/People.png';
 import Shield from '../../img/Shield.png';
@@ -27,16 +28,21 @@ const Text3 = styled(Typography)`
   font-style: italic;
   display: inline-block;
 `;
+
+const BorderRight = styled(Box)`
+  border-right: 1px solid #ccc;
+  width: 33.33%;
+  height: 100px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+`;
 const Composite = () => {
   return (
     <div className="composite">
       <Container maxWidth="xl">
         <div className="composite-container">
-          <div
-            className="composite-item"
-            style={{
-              borderRight: '1px solid #ccc'
-            }}>
+          <BorderRight>
             <img src={People} alt="" className="composite-item__logo" />
             <span>
               <Text1>Đối tượng đăng ký tiêm</Text1>
@@ -44,12 +50,8 @@ const Composite = () => {
                 11,203,873 <Text3>(lượt)</Text3>{' '}
               </Text2>
             </span>
-          </div>
-          <div
-            className="composite-item"
-            style={{
-              borderRight: '1px solid #ccc'
-            }}>
+          </BorderRight>
+          <BorderRight>
             <img src={Injection} alt="" className="composite-item__logo" />
             <span>
               <Text1>Số mũi tiêm hôm qua</Text1>
@@ -57,7 +59,7 @@ const Composite = () => {
                 1,762,119 <Text3>(mũi)</Text3>{' '}
               </Text2>
             </span>
-          </div>
+          </BorderRight>
           <div className="composite-item">
             <img src={Shield} alt="" className="composite-item__logo" />
             <span>

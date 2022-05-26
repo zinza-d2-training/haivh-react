@@ -12,7 +12,10 @@ import {
 import { Search } from '@mui/icons-material';
 import DataGird from '../DataGrid/DataGird';
 import { Controller, useForm } from 'react-hook-form';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 
+import { Container } from '../LocationChartStyle';
 interface FormData {
   province_id: number | string;
   district_id: number | string;
@@ -131,6 +134,10 @@ const provinces: Province[] = [
   }
 ];
 
+const LocationSortContainer = styled(Box)`
+  display: flex;
+  margin-bottom: 16px;
+`;
 const Location = () => {
   const {
     control,
@@ -187,7 +194,7 @@ const Location = () => {
   };
 
   return (
-    <div className="location-container">
+    <Container>
       <Typography
         variant="h6"
         sx={{
@@ -201,7 +208,7 @@ const Location = () => {
         Dữ liệu tiêm theo ngày
       </Typography>
 
-      <div className="location-sort-container">
+      <LocationSortContainer>
         <Controller
           name="province_id"
           control={control}
@@ -304,14 +311,14 @@ const Location = () => {
             Tìm kiếm
           </Typography>
         </Button>
-      </div>
+      </LocationSortContainer>
       <DataGird
         search={search}
         // districtId={Number(districtId) || undefined}
         // provinceId={Number(provinceId) || undefined}
         // wardId={Number(wardId) || undefined}
       />
-    </div>
+    </Container>
   );
 };
 

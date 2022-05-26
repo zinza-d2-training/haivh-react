@@ -10,6 +10,8 @@ import {
 import { indigo, deepPurple, blue } from '@mui/material/colors';
 import { useAppSelector } from '../../app/hooks';
 import { useNavigate } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
+import Link from '@mui/material/Link';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -18,6 +20,17 @@ const Header = () => {
   const handleLogin = () => {
     navigate('/login');
   };
+
+  const LinkArrow = styled(Link)`
+    display: flex;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.04px;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+  `;
   return (
     <div className="header-container">
       <div className="header-brand">
@@ -50,15 +63,10 @@ const Header = () => {
             </a>
           </li>
           <li className="header-menu__item more">
-            <a
-              href="/search"
-              className="header-menu__link"
-              style={{
-                display: 'flex'
-              }}>
+            <LinkArrow href="/search" underline="none">
               <span>Tra cứu</span>
               <KeyboardArrowDown />
-            </a>
+            </LinkArrow>
 
             <div className="header-menu__more">
               <ul className="header-menu__more-list">

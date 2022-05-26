@@ -13,6 +13,7 @@ import {
 
 import './Chart.css';
 import { Typography } from '@mui/material';
+import { Container } from '../LocationChartStyle';
 
 ChartJS.register(
   CategoryScale,
@@ -85,7 +86,7 @@ const data = {
 };
 const Chart = () => {
   return (
-    <div className="chart-container">
+    <Container>
       <Typography
         variant="h6"
         sx={{
@@ -101,7 +102,7 @@ const Chart = () => {
       <div style={{ height: '510px' }}>
         <Line options={options} data={data} />
       </div>
-    </div>
+    </Container>
   );
 };
 
