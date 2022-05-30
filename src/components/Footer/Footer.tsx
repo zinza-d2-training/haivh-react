@@ -4,7 +4,6 @@ import Cert from '../../img/Cert.png';
 import './Footer.css';
 
 import { Typography, Button, Box } from '@mui/material';
-import { Apple } from '@mui/icons-material';
 import ContainerLayout from '../ContainerLayout';
 import { styled } from '@mui/material/styles';
 
