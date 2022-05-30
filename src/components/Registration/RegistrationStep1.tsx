@@ -139,9 +139,18 @@ const RegistrationStep1 = () => {
                       onChange={(event) => {
                         field.onChange(event.target.value);
                       }}>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      <MenuItem value={'group-person-1'}>
+                        1. Người làm việc trong các cơ sở y tế, ngành y tế
+                      </MenuItem>
+                      <MenuItem value={'group-person-2'}>
+                        2. Lực lượng quân đội
+                      </MenuItem>
+                      <MenuItem value={'group-person-3'}>
+                        3. Lực lượng công an
+                      </MenuItem>
+                      <MenuItem value={'group-person-4'}>
+                        4. Người lao động tự do
+                      </MenuItem>
                     </Select>
                     {error && (
                       <FormHelperText sx={{ color: 'red' }}>
@@ -281,9 +290,9 @@ const RegistrationStep1 = () => {
                       onChange={(event) => {
                         field.onChange(event.target.value);
                       }}>
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      <MenuItem value={'morning'}>Buổi sáng</MenuItem>
+                      <MenuItem value={'afternoon'}>Buổi chiều</MenuItem>
+                      <MenuItem value={'allday'}>Cả ngày</MenuItem>
                     </Select>
                     {error && (
                       <FormHelperText sx={{ color: 'red' }}>
