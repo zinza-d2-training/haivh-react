@@ -21,6 +21,16 @@ const Header = () => {
     navigate('/login');
   };
 
+  const LinkNormal = styled(Link)`
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.04px;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+  `;
+
   const LinkArrow = styled(Link)`
     display: flex;
     font-size: 16px;
@@ -53,17 +63,13 @@ const Header = () => {
       <div className="header-menu">
         <ul className="header-menu__list">
           <li className="header-menu__item">
-            <a href="/" className="header-menu__link">
-              Trang chủ
-            </a>
+            <LinkNormal href="/">Trang chủ</LinkNormal>
           </li>
           <li className="header-menu__item">
-            <a href="/vaccine-register" className="header-menu__link">
-              Đăng ký tiêm
-            </a>
+            <LinkNormal href="/registration-step-1">Đăng ký tiêm</LinkNormal>
           </li>
           <li className="header-menu__item more">
-            <LinkArrow href="/search" underline="none">
+            <LinkArrow href="#" underline="none">
               <span>Tra cứu</span>
               <KeyboardArrowDown />
             </LinkArrow>
@@ -148,9 +154,7 @@ const Header = () => {
             </div>
           </li>
           <li className="header-menu__item">
-            <a href="/document" className="header-menu__link">
-              Tài liệu
-            </a>
+            <LinkNormal href="/document">Tài liệu</LinkNormal>
           </li>
         </ul>
         {user.email ? (

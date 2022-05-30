@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import CheckoutStep from './CheckoutStep';
 import Heading from './Heading';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 
 import Hospital from '../../img/hospital_icon.png';
 import Shield from '../../img/shield_icon.png';
@@ -46,6 +47,21 @@ const ButtonBox = styled(Box)`
   margin-bottom: 300px;
 `;
 const RegistrationStep2 = () => {
+  const [check, setCheck] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleCheck = () => {
+    setCheck(!check);
+  };
+
+  const handleBack = () => {
+    navigate('/registration-step-1');
+  };
+
+  const handleContinue = () => {
+    navigate('/registration-step-3');
+  };
   return (
     <>
       <Heading />
@@ -92,11 +108,15 @@ const RegistrationStep2 = () => {
             Sau khi đã đọc các thông tin nêu trên, tôi đã hiểu về các nguy cơ
             và:{' '}
           </Typography>
-          <FormControlLabel control={<Checkbox />} label="Đồng ý tiêm chủng" />
+          <FormControlLabel
+            control={<Checkbox checked={check} onChange={handleCheck} />}
+            label="Đồng ý tiêm chủng"
+          />
         </TickBox>
 
         <ButtonBox>
           <Button
+            onClick={handleBack}
             variant="outlined"
             startIcon={<ArrowBack />}
             sx={{
@@ -104,7 +124,11 @@ const RegistrationStep2 = () => {
             }}>
             Quay lại
           </Button>
-          <Button variant="contained" endIcon={<ArrowForward />}>
+          <Button
+            onClick={handleContinue}
+            variant="contained"
+            endIcon={<ArrowForward />}
+            disabled={!check}>
             Tiếp tục
           </Button>
         </ButtonBox>

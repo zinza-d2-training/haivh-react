@@ -18,7 +18,7 @@ const CheckoutStep = ({ activeStep }: CheckoutStepProps) => {
           <Step
             key={index}
             active={activeStep === index ? true : false}
-            completed={activeStep >= index ? true : false}>
+            completed={activeStep > index ? true : false}>
             <StepLabel>{step}</StepLabel>
           </Step>
         ))}
