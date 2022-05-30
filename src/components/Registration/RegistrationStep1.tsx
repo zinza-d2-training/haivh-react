@@ -23,6 +23,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import FormHelperText from '@mui/material/FormHelperText';
+import ContainerLayout from '../ContainerLayout';
 
 interface RegistrationInfo {
   group: string;
@@ -110,270 +111,272 @@ const RegistrationStep1 = () => {
   return (
     <>
       <Heading />
-      <BoxContainer component="form" onSubmit={handleSubmit(() => {})}>
-        <CheckoutStep activeStep={0} />
+      <ContainerLayout>
+        <BoxContainer component="form" onSubmit={handleSubmit(() => {})}>
+          <CheckoutStep activeStep={0} />
 
-        <BoxContent>
-          <Typography
-            sx={{
-              mb: 2,
-              fontWeight: 500
-            }}>
-            1. Thông tin người đăng ký tiêm
-          </Typography>
-          <BoxSelect>
-            <Grid container spacing={2}>
-              <Grid item xs={3}>
-                <BoxItem>
-                  <LabelText>Nhóm ưu tiên (*)</LabelText>
-                  <Controller
-                    name="group"
-                    control={control}
-                    render={({ field, fieldState: { error } }) => (
-                      <FormControl sx={{ width: '100%' }}>
-                        <Select
-                          defaultValue=""
-                          size="small"
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
-                          {...field}
-                          onChange={(event) => {
-                            field.onChange(event.target.value);
-                          }}>
-                          <MenuItem value={'group-person-1'}>
-                            1. Người làm việc trong các cơ sở y tế, ngành y tế
-                          </MenuItem>
-                          <MenuItem value={'group-person-2'}>
-                            2. Lực lượng quân đội
-                          </MenuItem>
-                          <MenuItem value={'group-person-3'}>
-                            3. Lực lượng công an
-                          </MenuItem>
-                          <MenuItem value={'group-person-4'}>
-                            4. Người lao động tự do
-                          </MenuItem>
-                        </Select>
-                        {error && (
-                          <FormHelperText sx={{ color: 'red' }}>
-                            {error?.message}
-                          </FormHelperText>
-                        )}
-                      </FormControl>
-                    )}
-                  />
-                </BoxItem>
-              </Grid>
-
-              <Grid item xs={3}>
-                <BoxItem>
-                  <LabelText>Số thẻ BHYT</LabelText>
-                  <Controller
-                    name="insurance"
-                    control={control}
-                    render={({ field, fieldState: { error } }) => (
-                      <TextField
-                        sx={{ width: '100%' }}
-                        label="Số thẻ BHYT"
-                        size="small"
-                        {...field}
-                        error={!!error}
-                        helperText={error?.message}
-                      />
-                    )}
-                  />
-                </BoxItem>
-              </Grid>
-            </Grid>
-          </BoxSelect>
-          <BoxSelect>
-            <Grid container spacing={2}>
-              <Grid item xs={3}>
-                <BoxItem>
-                  <LabelText>Nghề nghiệp</LabelText>
-                  <Controller
-                    name="job"
-                    control={control}
-                    render={({ field, fieldState: { error } }) => (
-                      <TextField
-                        sx={{
-                          width: '100%'
-                        }}
-                        label="Nghề nghiệp"
-                        size="small"
-                        {...field}
-                        error={!!error}
-                        helperText={error?.message}
-                      />
-                    )}
-                  />
-                </BoxItem>
-              </Grid>
-              <Grid item xs={3}>
-                <BoxItem>
-                  <LabelText>Đơn vị công tác</LabelText>
-                  <Controller
-                    name="job_location"
-                    control={control}
-                    render={({ field, fieldState: { error } }) => (
-                      <TextField
-                        sx={{
-                          width: '100%'
-                        }}
-                        label="Đơn vị công tác"
-                        size="small"
-                        {...field}
-                        error={!!error}
-                        helperText={error?.message}
-                      />
-                    )}
-                  />
-                </BoxItem>
-              </Grid>
-              <Grid item xs={3}>
-                <BoxItem>
-                  <LabelText>Địa chỉ hiện tại</LabelText>
-                  <Controller
-                    name="address"
-                    control={control}
-                    render={({ field, fieldState: { error } }) => (
-                      <TextField
-                        sx={{
-                          width: '100%'
-                        }}
-                        label="Địa chỉ hiện tại"
-                        size="small"
-                        {...field}
-                        error={!!error}
-                        helperText={error?.message}
-                      />
-                    )}
-                  />
-                </BoxItem>
-              </Grid>
-            </Grid>
-          </BoxSelect>
-        </BoxContent>
-
-        <BoxContent>
-          <Typography
-            sx={{
-              mb: 2,
-              fontWeight: 500
-            }}>
-            2. Thông tin tiêm chủng
-          </Typography>
-          <BoxSelect>
-            <Grid container spacing={2}>
-              <Grid item xs={3}>
-                {' '}
-                <BoxItem>
-                  <LabelText>Ngày muốn được tiêm (dự kiến)</LabelText>
-                  <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <BoxContent>
+            <Typography
+              sx={{
+                mb: 2,
+                fontWeight: 500
+              }}>
+              1. Thông tin người đăng ký tiêm
+            </Typography>
+            <BoxSelect>
+              <Grid container spacing={2}>
+                <Grid item xs={3}>
+                  <BoxItem>
+                    <LabelText>Nhóm ưu tiên (*)</LabelText>
                     <Controller
-                      name="date"
+                      name="group"
                       control={control}
                       render={({ field, fieldState: { error } }) => (
                         <FormControl sx={{ width: '100%' }}>
-                          <DatePicker
-                            renderInput={(params) => (
-                              <TextField
-                                {...params}
-                                size="small"
-                                error={!!error}
-                                helperText={error?.message}
-                              />
-                            )}
+                          <Select
+                            defaultValue=""
+                            size="small"
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
                             {...field}
-                          />
+                            onChange={(event) => {
+                              field.onChange(event.target.value);
+                            }}>
+                            <MenuItem value={'group-person-1'}>
+                              1. Người làm việc trong các cơ sở y tế, ngành y tế
+                            </MenuItem>
+                            <MenuItem value={'group-person-2'}>
+                              2. Lực lượng quân đội
+                            </MenuItem>
+                            <MenuItem value={'group-person-3'}>
+                              3. Lực lượng công an
+                            </MenuItem>
+                            <MenuItem value={'group-person-4'}>
+                              4. Người lao động tự do
+                            </MenuItem>
+                          </Select>
+                          {error && (
+                            <FormHelperText sx={{ color: 'red' }}>
+                              {error?.message}
+                            </FormHelperText>
+                          )}
                         </FormControl>
                       )}
                     />
-                  </LocalizationProvider>
-                </BoxItem>
+                  </BoxItem>
+                </Grid>
+
+                <Grid item xs={3}>
+                  <BoxItem>
+                    <LabelText>Số thẻ BHYT</LabelText>
+                    <Controller
+                      name="insurance"
+                      control={control}
+                      render={({ field, fieldState: { error } }) => (
+                        <TextField
+                          sx={{ width: '100%' }}
+                          label="Số thẻ BHYT"
+                          size="small"
+                          {...field}
+                          error={!!error}
+                          helperText={error?.message}
+                        />
+                      )}
+                    />
+                  </BoxItem>
+                </Grid>
               </Grid>
-              <Grid item xs={3}>
-                <BoxItem>
-                  <LabelText>Buổi tiêm mong muốn</LabelText>
-                  <Controller
-                    name="session"
-                    control={control}
-                    render={({ field, fieldState: { error } }) => (
-                      <FormControl sx={{ width: '100%' }}>
-                        <Select
-                          defaultValue=""
+            </BoxSelect>
+            <BoxSelect>
+              <Grid container spacing={2}>
+                <Grid item xs={3}>
+                  <BoxItem>
+                    <LabelText>Nghề nghiệp</LabelText>
+                    <Controller
+                      name="job"
+                      control={control}
+                      render={({ field, fieldState: { error } }) => (
+                        <TextField
                           sx={{
                             width: '100%'
                           }}
+                          label="Nghề nghiệp"
                           size="small"
-                          labelId="demo-simple-select-label"
-                          id="demo-simple-select"
                           {...field}
-                          onChange={(event) => {
-                            field.onChange(event.target.value);
-                          }}>
-                          <MenuItem value={'morning'}>Buổi sáng</MenuItem>
-                          <MenuItem value={'afternoon'}>Buổi chiều</MenuItem>
-                          <MenuItem value={'allday'}>Cả ngày</MenuItem>
-                        </Select>
-                        {error && (
-                          <FormHelperText sx={{ color: 'red' }}>
-                            {error?.message}
-                          </FormHelperText>
-                        )}
-                      </FormControl>
-                    )}
-                  />
-                </BoxItem>
+                          error={!!error}
+                          helperText={error?.message}
+                        />
+                      )}
+                    />
+                  </BoxItem>
+                </Grid>
+                <Grid item xs={3}>
+                  <BoxItem>
+                    <LabelText>Đơn vị công tác</LabelText>
+                    <Controller
+                      name="job_location"
+                      control={control}
+                      render={({ field, fieldState: { error } }) => (
+                        <TextField
+                          sx={{
+                            width: '100%'
+                          }}
+                          label="Đơn vị công tác"
+                          size="small"
+                          {...field}
+                          error={!!error}
+                          helperText={error?.message}
+                        />
+                      )}
+                    />
+                  </BoxItem>
+                </Grid>
+                <Grid item xs={3}>
+                  <BoxItem>
+                    <LabelText>Địa chỉ hiện tại</LabelText>
+                    <Controller
+                      name="address"
+                      control={control}
+                      render={({ field, fieldState: { error } }) => (
+                        <TextField
+                          sx={{
+                            width: '100%'
+                          }}
+                          label="Địa chỉ hiện tại"
+                          size="small"
+                          {...field}
+                          error={!!error}
+                          helperText={error?.message}
+                        />
+                      )}
+                    />
+                  </BoxItem>
+                </Grid>
               </Grid>
-            </Grid>
-          </BoxSelect>
-        </BoxContent>
+            </BoxSelect>
+          </BoxContent>
 
-        <NoticeBox>
-          <Typography
-            sx={{
-              fontSize: '16px',
-              fontWeight: '700',
-              lineHeight: '24px'
-            }}>
-            Lưu ý:
-          </Typography>
-          <List>
-            <ListItem disablePadding>
-              <ListItemText primary="Việc đăng ký thông tin hoàn toàn bảo mật và phục vụ cho chiến dịch tiêm chủng Vắc xin COVID - 19" />
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemText primary="Xin vui lòng kiểm tra kỹ các thông tin bắt buộc(VD: Họ và tên, Ngày tháng năm sinh, Số điện thoại, Số CMND/CCCD/Mã định danh công dân/HC ...)" />
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemText primary='Bằng việc nhấn nút Xác nhận", bạn hoàn toàn hiểu và đồng ý chịu trách nhiệm với các thông tin đã cung cấp.' />
-            </ListItem>
-            <ListItem disablePadding>
-              <ListItemText primary="Cá nhân/Tổ chức đăng ký thành công trên hệ thống sẽ được đưa vào danh sách đặt tiêm. Cơ sở y tế sẽ thông báo lịch tiêm khi có vắc xin và kế hoạch tiêm được phê duyệt. Trân trọng cảm ơn" />
-            </ListItem>
-          </List>
-        </NoticeBox>
+          <BoxContent>
+            <Typography
+              sx={{
+                mb: 2,
+                fontWeight: 500
+              }}>
+              2. Thông tin tiêm chủng
+            </Typography>
+            <BoxSelect>
+              <Grid container spacing={2}>
+                <Grid item xs={3}>
+                  {' '}
+                  <BoxItem>
+                    <LabelText>Ngày muốn được tiêm (dự kiến)</LabelText>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <Controller
+                        name="date"
+                        control={control}
+                        render={({ field, fieldState: { error } }) => (
+                          <FormControl sx={{ width: '100%' }}>
+                            <DatePicker
+                              renderInput={(params) => (
+                                <TextField
+                                  {...params}
+                                  size="small"
+                                  error={!!error}
+                                  helperText={error?.message}
+                                />
+                              )}
+                              {...field}
+                            />
+                          </FormControl>
+                        )}
+                      />
+                    </LocalizationProvider>
+                  </BoxItem>
+                </Grid>
+                <Grid item xs={3}>
+                  <BoxItem>
+                    <LabelText>Buổi tiêm mong muốn</LabelText>
+                    <Controller
+                      name="session"
+                      control={control}
+                      render={({ field, fieldState: { error } }) => (
+                        <FormControl sx={{ width: '100%' }}>
+                          <Select
+                            defaultValue=""
+                            sx={{
+                              width: '100%'
+                            }}
+                            size="small"
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            {...field}
+                            onChange={(event) => {
+                              field.onChange(event.target.value);
+                            }}>
+                            <MenuItem value={'morning'}>Buổi sáng</MenuItem>
+                            <MenuItem value={'afternoon'}>Buổi chiều</MenuItem>
+                            <MenuItem value={'allday'}>Cả ngày</MenuItem>
+                          </Select>
+                          {error && (
+                            <FormHelperText sx={{ color: 'red' }}>
+                              {error?.message}
+                            </FormHelperText>
+                          )}
+                        </FormControl>
+                      )}
+                    />
+                  </BoxItem>
+                </Grid>
+              </Grid>
+            </BoxSelect>
+          </BoxContent>
 
-        <ButtonBox>
-          <Button
-            onClick={handleCancel}
-            variant="outlined"
-            startIcon={<ArrowBack />}
-            sx={{
-              mr: 2
-            }}>
-            Hủy bỏ
-          </Button>
-          <Button
-            disabled={!isValid}
-            type="submit"
-            variant="contained"
-            endIcon={<ArrowForward />}
-            onClick={handleContinue}>
-            Tiếp tục
-          </Button>
-        </ButtonBox>
-      </BoxContainer>
+          <NoticeBox>
+            <Typography
+              sx={{
+                fontSize: '16px',
+                fontWeight: '700',
+                lineHeight: '24px'
+              }}>
+              Lưu ý:
+            </Typography>
+            <List>
+              <ListItem disablePadding>
+                <ListItemText primary="Việc đăng ký thông tin hoàn toàn bảo mật và phục vụ cho chiến dịch tiêm chủng Vắc xin COVID - 19" />
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemText primary="Xin vui lòng kiểm tra kỹ các thông tin bắt buộc(VD: Họ và tên, Ngày tháng năm sinh, Số điện thoại, Số CMND/CCCD/Mã định danh công dân/HC ...)" />
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemText primary='Bằng việc nhấn nút Xác nhận", bạn hoàn toàn hiểu và đồng ý chịu trách nhiệm với các thông tin đã cung cấp.' />
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemText primary="Cá nhân/Tổ chức đăng ký thành công trên hệ thống sẽ được đưa vào danh sách đặt tiêm. Cơ sở y tế sẽ thông báo lịch tiêm khi có vắc xin và kế hoạch tiêm được phê duyệt. Trân trọng cảm ơn" />
+              </ListItem>
+            </List>
+          </NoticeBox>
+
+          <ButtonBox>
+            <Button
+              onClick={handleCancel}
+              variant="outlined"
+              startIcon={<ArrowBack />}
+              sx={{
+                mr: 2
+              }}>
+              Hủy bỏ
+            </Button>
+            <Button
+              disabled={!isValid}
+              type="submit"
+              variant="contained"
+              endIcon={<ArrowForward />}
+              onClick={handleContinue}>
+              Tiếp tục
+            </Button>
+          </ButtonBox>
+        </BoxContainer>
+      </ContainerLayout>
     </>
   );
 };
