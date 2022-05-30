@@ -245,7 +245,6 @@ const RegistrationStep1 = () => {
                   render={({ field, fieldState: { error } }) => (
                     <FormControl>
                       <DatePicker
-                        label="Ngày/Tháng/Năm"
                         renderInput={(params) => (
                           <TextField
                             {...params}
