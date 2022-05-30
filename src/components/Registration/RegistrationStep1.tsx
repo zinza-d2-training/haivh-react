@@ -22,6 +22,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import FormHelperText from '@mui/material/FormHelperText';
+
 interface RegistrationInfo {
   group: string;
   insurance: string;
