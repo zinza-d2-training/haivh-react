@@ -175,7 +175,7 @@ const RegistrationStep1 = () => {
                       render={({ field, fieldState: { error } }) => (
                         <TextField
                           sx={{ width: '100%' }}
-                          label="Số thẻ BHYT"
+                          placeholder="Số thẻ BHYT"
                           size="small"
                           {...field}
                           error={!!error}
@@ -200,7 +200,7 @@ const RegistrationStep1 = () => {
                           sx={{
                             width: '100%'
                           }}
-                          label="Nghề nghiệp"
+                          placeholder="Nghề nghiệp"
                           size="small"
                           {...field}
                           error={!!error}
@@ -221,7 +221,7 @@ const RegistrationStep1 = () => {
                           sx={{
                             width: '100%'
                           }}
-                          label="Đơn vị công tác"
+                          placeholder="Đơn vị công tác"
                           size="small"
                           {...field}
                           error={!!error}
@@ -242,7 +242,7 @@ const RegistrationStep1 = () => {
                           sx={{
                             width: '100%'
                           }}
-                          label="Địa chỉ hiện tại"
+                          placeholder="Địa chỉ hiện tại"
                           size="small"
                           {...field}
                           error={!!error}
