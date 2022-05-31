@@ -10,10 +10,10 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
-
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
 import './Chart.css';
 import { Typography } from '@mui/material';
-import { Container } from '../LocationChartStyle';
 
 ChartJS.register(
   CategoryScale,
@@ -84,9 +84,17 @@ const data = {
     }
   ]
 };
+
+const ShadowBox = styled(Box)`
+  margin: 34px 0 32px;
+  padding: 24px 16px;
+  box-shadow: 0 4px 12px 0 rgb(34 41 47 / 12%);
+  border-radius: 10px;
+`;
+
 const Chart = () => {
   return (
-    <Container>
+    <ShadowBox>
       <Typography
         variant="h6"
         sx={{
@@ -102,7 +110,7 @@ const Chart = () => {
       <div style={{ height: '510px' }}>
         <Line options={options} data={data} />
       </div>
-    </Container>
+    </ShadowBox>
   );
 };
 

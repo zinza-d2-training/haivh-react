@@ -13,7 +13,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 
-import { Container } from '../LocationChartStyle';
 interface FormData {
   province_id: number | string;
   district_id: number | string;
@@ -136,6 +135,14 @@ const LocationSortContainer = styled(Box)`
   display: flex;
   margin-bottom: 16px;
 `;
+
+const ShadowBox = styled(Box)`
+  margin: 34px 0 32px;
+  padding: 24px 16px;
+  box-shadow: 0 4px 12px 0 rgb(34 41 47 / 12%);
+  border-radius: 10px;
+`;
+
 const Location = () => {
   const { control, setValue, watch } = useForm<FormData>({
     defaultValues,
@@ -186,7 +193,7 @@ const Location = () => {
   };
 
   return (
-    <Container>
+    <ShadowBox>
       <Typography
         variant="h6"
         sx={{
@@ -306,7 +313,7 @@ const Location = () => {
         </Button>
       </LocationSortContainer>
       <DataGird search={search} />
-    </Container>
+    </ShadowBox>
   );
 };
 

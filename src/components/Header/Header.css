@@ -9,14 +9,11 @@
   height: 80px;
   background: linear-gradient(133deg, #ed1b23, #2e3091, #253494);
   display: flex;
-  justify-content: space-between;
 }
 
 .header-brand {
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin: 15px 0 15px 36px;
 }
 
 .header-brand__logo {
@@ -25,9 +22,7 @@
 }
 
 .header-menu {
-  margin: 15px 36px 15px 0;
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 

@@ -6,8 +6,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* position: fixed;
-  bottom: 0; */
 }
 
 .footer-license__logo {
