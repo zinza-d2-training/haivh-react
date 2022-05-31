@@ -8,6 +8,7 @@ import { Box, Typography, Button } from '@mui/material';
 import { blue, red } from '@mui/material/colors';
 import { useNavigate } from 'react-router-dom';
 import { jsPDF } from 'jspdf';
+import { useAppSelector } from '../../app/hooks';
 const html2canvas = require('html2canvas');
 
 const BoxContainer = styled(Box)`
@@ -53,6 +54,10 @@ const TextInfo = styled(Typography)`
 const PDFBox = styled(Box)``;
 const RegistrationStep3 = () => {
   const navigate = useNavigate();
+  const insuranceInfo = useAppSelector(
+    (state) => state.user.vaccineRegistrationInfo.insurance
+  );
+
   const handleHomepage = () => {
     navigate('/');
   };
@@ -170,6 +175,7 @@ const RegistrationStep3 = () => {
               </BoxItem>
               <BoxItem>
                 <TextLabel>Số thẻ BHYT</TextLabel>
+                <TextInfo>{insuranceInfo}</TextInfo>
               </BoxItem>
             </BoxInfo>
 

@@ -24,6 +24,8 @@ import * as yup from 'yup';
 import { Controller, useForm } from 'react-hook-form';
 import FormHelperText from '@mui/material/FormHelperText';
 import ContainerLayout from '../ContainerLayout';
+import { useAppDispatch } from '../../app/hooks';
+import { vaccineRegistration } from '../../features/user/userSlice';
 
 interface RegistrationInfo {
   group: string;
@@ -100,7 +102,9 @@ const RegistrationStep1 = () => {
     resolver: yupResolver(schema)
   });
   const navigate = useNavigate();
-  const handleContinue = () => {
+  const dispatch = useAppDispatch();
+  const handleContinue = (data: RegistrationInfo) => {
+    dispatch(vaccineRegistration(data));
     navigate('/registration-step-2');
   };
 
@@ -112,7 +116,7 @@ const RegistrationStep1 = () => {
     <>
       <Heading />
       <ContainerLayout>
-        <BoxContainer component="form" onSubmit={handleSubmit(() => {})}>
+        <BoxContainer component="form" onSubmit={handleSubmit(handleContinue)}>
           <CheckoutStep activeStep={0} />
 
           <BoxContent>
@@ -370,8 +374,7 @@ const RegistrationStep1 = () => {
               disabled={!isValid}
               type="submit"
               variant="contained"
-              endIcon={<ArrowForward />}
-              onClick={handleContinue}>
+              endIcon={<ArrowForward />}>
               Tiếp tục
             </Button>
           </ButtonBox>
