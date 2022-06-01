@@ -21,22 +21,25 @@ import person from '../../img/person.png';
 import { useNavigate } from 'react-router-dom';
 
 function createData(
+  id: number,
   time: string,
   vaccine_name: string,
   batch_number: string,
   address: string
 ) {
-  return { time, vaccine_name, batch_number, address };
+  return { id, time, vaccine_name, batch_number, address };
 }
 
 const rows = [
   createData(
+    1,
     '08/09/2021 - 16:56',
     'COVID-19 Vaccine AstraZeneca',
     'NJ0342',
     'TYT Dịch Vọng Hậu'
   ),
   createData(
+    2,
     '08/09/2021 - 16:56',
     'COVID-19 Vaccine AstraZeneca',
     'NJ0342',
@@ -187,7 +190,7 @@ const VaccineCertificate = () => {
             <TableBody>
               {rows.map((row, index) => (
                 <TableRow
-                  key={index}
+                  key={row.id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                   <TableCell align="center">{(index += 1)}</TableCell>
                   <TableCell align="center">{row.time}</TableCell>

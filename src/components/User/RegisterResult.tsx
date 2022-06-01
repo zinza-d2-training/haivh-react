@@ -12,17 +12,19 @@ import {
 import { indigo } from '@mui/material/colors';
 
 function createData(
+  id: number,
   name: string,
   dob: string,
   gender: string,
   identity_card: string,
   status: string
 ) {
-  return { name, dob, gender, identity_card, status };
+  return { id, name, dob, gender, identity_card, status };
 }
 
 const rows = [
   createData(
+    1,
     'Nguyễn Văn A',
     '6/10/1994',
     'Nam',
@@ -54,7 +56,7 @@ const RegisterResult = () => {
         <TableBody>
           {rows.map((row, index) => (
             <TableRow
-              key={index}
+              key={row.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               <TableCell align="center">{(index += 1)}</TableCell>
               <TableCell align="center">{row.name}</TableCell>
@@ -72,7 +74,7 @@ const RegisterResult = () => {
                     pb: 0.25
                   }}>
                   {row.status}
-                </Box>{' '}
+                </Box>
               </TableCell>
             </TableRow>
           ))}
