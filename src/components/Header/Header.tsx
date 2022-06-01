@@ -7,7 +7,7 @@ import {
   ArrowRightAlt,
   PeopleAlt
 } from '@mui/icons-material';
-import { indigo, deepPurple, blue } from '@mui/material/colors';
+import { indigo, deepPurple, blue, green } from '@mui/material/colors';
 import { useAppSelector } from '../../app/hooks';
 import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
@@ -89,7 +89,7 @@ const Header = () => {
 
                 <div className="header-menu__more">
                   <ul className="header-menu__more-list">
-                    <LinkNormal href="/user-info">
+                    <LinkNormal href="/user-info?tab=1">
                       <li className="header-menu__more-item">
                         <div className="header-menu__more-icon">
                           <PeopleAlt
@@ -163,6 +163,45 @@ const Header = () => {
                         <ArrowRightAlt
                           sx={{
                             color: deepPurple[600]
+                          }}
+                        />
+                      </li>
+                    </LinkNormal>
+                    <LinkNormal href="/user-info?tab=3">
+                      <li className="header-menu__more-item">
+                        <div className="header-menu__more-icon">
+                          <PeopleAlt
+                            sx={{
+                              color: green[600]
+                            }}
+                          />
+                        </div>
+
+                        <span className="header-menu__more-text">
+                          <Typography
+                            sx={{
+                              fontSize: '16px',
+                              fontWeight: '400',
+                              lineHeight: '24px',
+                              letterSpacing: '-0.04px',
+                              color: 'rgba(0, 0, 0, 0.87)'
+                            }}>
+                            Tra cứu thông tin tài khoản
+                          </Typography>
+                          <Typography
+                            sx={{
+                              fontSize: '12px',
+                              fontWeight: '400',
+                              lineHeight: '18px',
+                              letterSpacing: '-0.04px',
+                              color: 'rgba(0, 0, 0, 0.87)'
+                            }}>
+                            Cập nhật nhanh và chính xác nhất
+                          </Typography>
+                        </span>
+                        <ArrowRightAlt
+                          sx={{
+                            color: green[600]
                           }}
                         />
                       </li>

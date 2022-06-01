@@ -1,15 +1,12 @@
 import React from 'react';
-import Footer from '../components/Footer/Footer';
-import Header from '../components/Header/Header';
+import MainLayout from '../components/MainLayout';
 import Certificate from '../components/User/Certificate';
 
 const UserPage = () => {
   return (
-    <>
-      <Header />
+    <MainLayout>
       <Certificate />
-      <Footer />
-    </>
+    </MainLayout>
   );
 };
 
