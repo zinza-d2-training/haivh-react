@@ -89,80 +89,84 @@ const Header = () => {
 
                 <div className="header-menu__more">
                   <ul className="header-menu__more-list">
-                    <li className="header-menu__more-item">
-                      <div className="header-menu__more-icon">
-                        <PeopleAlt
+                    <LinkNormal href="/user-info">
+                      <li className="header-menu__more-item">
+                        <div className="header-menu__more-icon">
+                          <PeopleAlt
+                            sx={{
+                              color: blue[600]
+                            }}
+                          />
+                        </div>
+
+                        <span className="header-menu__more-text">
+                          <Typography
+                            sx={{
+                              fontSize: '16px',
+                              fontWeight: '400',
+                              lineHeight: '24px',
+                              letterSpacing: '-0.04px',
+                              color: 'rgba(0, 0, 0, 0.87)'
+                            }}>
+                            Tra cứu chứng nhận tiêm
+                          </Typography>
+                          <Typography
+                            sx={{
+                              fontSize: '12px',
+                              fontWeight: '400',
+                              lineHeight: '18px',
+                              letterSpacing: '-0.04px',
+                              color: 'rgba(0, 0, 0, 0.87)'
+                            }}>
+                            Cập nhật nhanh và chính xác nhất
+                          </Typography>
+                        </span>
+                        <ArrowRightAlt
                           sx={{
                             color: blue[600]
                           }}
                         />
-                      </div>
+                      </li>
+                    </LinkNormal>
+                    <LinkNormal href="/user-info?tab=2">
+                      <li className="header-menu__more-item">
+                        <div className="header-menu__more-icon">
+                          <PeopleAlt
+                            sx={{
+                              color: deepPurple[600]
+                            }}
+                          />
+                        </div>
 
-                      <span className="header-menu__more-text">
-                        <Typography
-                          sx={{
-                            fontSize: '16px',
-                            fontWeight: '400',
-                            lineHeight: '24px',
-                            letterSpacing: '-0.04px',
-                            color: 'rgba(0, 0, 0, 0.87)'
-                          }}>
-                          Tra cứu chứng nhận tiêm
-                        </Typography>
-                        <Typography
-                          sx={{
-                            fontSize: '12px',
-                            fontWeight: '400',
-                            lineHeight: '18px',
-                            letterSpacing: '-0.04px',
-                            color: 'rgba(0, 0, 0, 0.87)'
-                          }}>
-                          Cập nhật nhanh và chính xác nhất
-                        </Typography>
-                      </span>
-                      <ArrowRightAlt
-                        sx={{
-                          color: blue[600]
-                        }}
-                      />
-                    </li>
-                    <li className="header-menu__more-item">
-                      <div className="header-menu__more-icon">
-                        <PeopleAlt
+                        <span className="header-menu__more-text">
+                          <Typography
+                            sx={{
+                              fontSize: '16px',
+                              fontWeight: '400',
+                              lineHeight: '24px',
+                              letterSpacing: '-0.04px',
+                              color: 'rgba(0, 0, 0, 0.87)'
+                            }}>
+                            Tra cứu kết quả đăng ký
+                          </Typography>
+                          <Typography
+                            sx={{
+                              fontSize: '12px',
+                              fontWeight: '400',
+                              lineHeight: '18px',
+                              letterSpacing: '-0.04px',
+                              color: 'rgba(0, 0, 0, 0.87)'
+                            }}>
+                            Cập nhật nhanh và chính xác nhất
+                          </Typography>
+                        </span>
+                        <ArrowRightAlt
                           sx={{
                             color: deepPurple[600]
                           }}
                         />
-                      </div>
-
-                      <span className="header-menu__more-text">
-                        <Typography
-                          sx={{
-                            fontSize: '16px',
-                            fontWeight: '400',
-                            lineHeight: '24px',
-                            letterSpacing: '-0.04px',
-                            color: 'rgba(0, 0, 0, 0.87)'
-                          }}>
-                          Tra cứu kết quả đăng ký
-                        </Typography>
-                        <Typography
-                          sx={{
-                            fontSize: '12px',
-                            fontWeight: '400',
-                            lineHeight: '18px',
-                            letterSpacing: '-0.04px',
-                            color: 'rgba(0, 0, 0, 0.87)'
-                          }}>
-                          Cập nhật nhanh và chính xác nhất
-                        </Typography>
-                      </span>
-                      <ArrowRightAlt
-                        sx={{
-                          color: deepPurple[600]
-                        }}
-                      />
-                    </li>
+                      </li>
+                    </LinkNormal>
                   </ul>
                 </div>
               </li>

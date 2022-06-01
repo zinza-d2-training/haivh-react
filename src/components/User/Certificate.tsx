@@ -6,13 +6,15 @@ import ContainerLayout from '../ContainerLayout';
 import VaccineCertificate from './VaccineCertificate';
 import RegisterResult from './RegisterResult';
 import Account from './Account';
+import { useSearchParams } from 'react-router-dom';
 
 const Certificate = () => {
-  const [value, setValue] = React.useState('1');
-
+  const [searchParams] = useSearchParams();
+  const [value, setValue] = React.useState(searchParams.get('tab') || '1');
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+
   return (
     <ContainerLayout>
       <Box sx={{ width: '100%', typography: 'body1' }}>
