@@ -45,8 +45,8 @@ interface Password {
 }
 
 const defaultValues = {
-  password: '123456789',
-  password_confirm: '123456789'
+  password: '',
+  password_confirm: ''
 };
 
 const schema = yup
