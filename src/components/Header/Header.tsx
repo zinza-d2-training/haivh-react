@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Link from '@mui/material/Link';
 import ContainerLayout from '../ContainerLayout';
+import { AccountTabId } from '../User/Certificate';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -89,7 +90,8 @@ const Header = () => {
 
                 <div className="header-menu__more">
                   <ul className="header-menu__more-list">
-                    <LinkNormal href="/user-info?tab=certificate">
+                    <LinkNormal
+                      href={`/user-info?tab=${AccountTabId.Certificate}`}>
                       <li className="header-menu__more-item">
                         <div className="header-menu__more-icon">
                           <PeopleAlt
@@ -128,7 +130,8 @@ const Header = () => {
                         />
                       </li>
                     </LinkNormal>
-                    <LinkNormal href="/user-info?tab=registration">
+                    <LinkNormal
+                      href={`/user-info?tab=${AccountTabId.Registration}`}>
                       <li className="header-menu__more-item">
                         <div className="header-menu__more-icon">
                           <PeopleAlt
@@ -167,7 +170,7 @@ const Header = () => {
                         />
                       </li>
                     </LinkNormal>
-                    <LinkNormal href="/user-info?tab=profile">
+                    <LinkNormal href={`/user-info?tab=${AccountTabId.Profile}`}>
                       <li className="header-menu__more-item">
                         <div className="header-menu__more-icon">
                           <PeopleAlt

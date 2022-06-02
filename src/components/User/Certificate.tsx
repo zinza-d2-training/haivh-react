@@ -8,7 +8,7 @@ import RegisterResult from './RegisterResult';
 import Account from './Account';
 import { useSearchParams } from 'react-router-dom';
 
-const enum AccountTabId {
+export const enum AccountTabId {
   Certificate = 'certificate',
   Registration = 'registration',
   Profile = 'profile'
