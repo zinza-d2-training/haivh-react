@@ -8,9 +8,17 @@ import RegisterResult from './RegisterResult';
 import Account from './Account';
 import { useSearchParams } from 'react-router-dom';
 
+const enum AccountTabId {
+  Certificate = 'certificate',
+  Registration = 'registration',
+  Profile = 'profile'
+}
+
 const Certificate = () => {
   const [searchParams] = useSearchParams();
-  const [value, setValue] = React.useState(searchParams.get('tab') || '1');
+  const [value, setValue] = React.useState(
+    searchParams.get('tab') || AccountTabId.Certificate
+  );
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -21,19 +29,22 @@ const Certificate = () => {
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 6 }}>
             <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Chứng nhận tiêm chủng" value="1" />
-              <Tab label="Kết quả đăng ký" value="2" />
-              <Tab label="Tài khoản" value="3" />
+              <Tab
+                label="Chứng nhận tiêm chủng"
+                value={AccountTabId.Certificate}
+              />
+              <Tab label="Kết quả đăng ký" value={AccountTabId.Registration} />
+              <Tab label="Tài khoản" value={AccountTabId.Profile} />
             </TabList>
           </Box>
-          <TabPanel value="1">
-            <VaccineCertificate />{' '}
+          <TabPanel value={AccountTabId.Certificate}>
+            <VaccineCertificate />
           </TabPanel>
-          <TabPanel value="2">
-            <RegisterResult />{' '}
+          <TabPanel value={AccountTabId.Registration}>
+            <RegisterResult />
           </TabPanel>
-          <TabPanel value="3">
-            <Account />{' '}
+          <TabPanel value={AccountTabId.Profile}>
+            <Account />
           </TabPanel>
         </TabContext>
       </Box>

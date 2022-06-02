@@ -89,7 +89,7 @@ const Header = () => {
 
                 <div className="header-menu__more">
                   <ul className="header-menu__more-list">
-                    <LinkNormal href="/user-info?tab=1">
+                    <LinkNormal href="/user-info?tab=certificate">
                       <li className="header-menu__more-item">
                         <div className="header-menu__more-icon">
                           <PeopleAlt
@@ -128,7 +128,7 @@ const Header = () => {
                         />
                       </li>
                     </LinkNormal>
-                    <LinkNormal href="/user-info?tab=2">
+                    <LinkNormal href="/user-info?tab=registration">
                       <li className="header-menu__more-item">
                         <div className="header-menu__more-icon">
                           <PeopleAlt
@@ -167,7 +167,7 @@ const Header = () => {
                         />
                       </li>
                     </LinkNormal>
-                    <LinkNormal href="/user-info?tab=3">
+                    <LinkNormal href="/user-info?tab=profile">
                       <li className="header-menu__more-item">
                         <div className="header-menu__more-icon">
                           <PeopleAlt
