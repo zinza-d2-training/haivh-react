@@ -4,6 +4,8 @@ import { Box, Tab } from '@mui/material';
 import { useSearchParams } from 'react-router-dom';
 import ContainerLayout from '../ContainerLayout';
 import Location from './Location';
+import Registration from './Registration';
+import Document from './Document';
 
 export const enum TabId {
   Location = 'location',
@@ -34,8 +36,12 @@ const Control = () => {
           <TabPanel value={TabId.Location}>
             <Location />
           </TabPanel>
-          <TabPanel value={TabId.Registration}></TabPanel>
-          <TabPanel value={TabId.Document}></TabPanel>
+          <TabPanel value={TabId.Registration}>
+            <Registration />
+          </TabPanel>
+          <TabPanel value={TabId.Document}>
+            <Document />
+          </TabPanel>
         </TabContext>
       </Box>
     </ContainerLayout>

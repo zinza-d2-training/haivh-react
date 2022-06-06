@@ -1,18 +1,18 @@
-import { Box, Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
-import { Search } from '@mui/icons-material';
-import AdminLocation from '../DataGrid/AdminLocation';
+import { Box, TextField, Button } from '@mui/material';
+import { AdminRegistration } from '../DataGrid/AdminRegistration';
 import { Controller, useForm } from 'react-hook-form';
+import { Search } from '@mui/icons-material';
 
 interface SearchData {
-  location: string;
-  address: string;
+  name: string;
+  insurance: string;
 }
 
 const defaultValues = {
-  location: '',
-  address: ''
+  name: '',
+  insurance: ''
 };
 
 const InputField = styled(TextField)`
@@ -20,55 +20,53 @@ const InputField = styled(TextField)`
   width: 260px;
 `;
 
-const Location = () => {
+const Registration = () => {
   const { control, setValue, watch } = useForm<SearchData>({
     defaultValues,
     mode: 'onChange'
   });
 
-  const locationInfo = watch('location');
-  const addressInfo = watch('address');
+  const name = watch('name');
+  const insurance = watch('insurance');
 
   const [search, setSearch] = useState({
-    locationInfo,
-    addressInfo
+    name,
+    insurance
   });
 
   const handleSearch = () => {
     setSearch({
-      locationInfo,
-      addressInfo
+      name,
+      insurance
     });
-    setValue('location', '');
-    setValue('address', '');
+    setValue('name', '');
+    setValue('insurance', '');
   };
 
   return (
     <Box>
       <Controller
-        name="location"
+        name="name"
         control={control}
         render={({ field, fieldState: { error } }) => (
           <InputField
-            label="Điểm tiêm"
-            placeholder="Điểm tiêm"
+            label="Họ và tên"
+            placeholder="Họ và tên"
             size="small"
             {...field}
-            onChange={(e) => setValue('location', e.target.value)}
             error={!!error}
           />
         )}
       />
       <Controller
-        name="address"
+        name="insurance"
         control={control}
         render={({ field, fieldState: { error } }) => (
           <InputField
-            label="Địa chỉ"
-            placeholder="Địa chỉ"
+            label="Số thẻ BHYT"
+            placeholder="Số thẻ BHYT"
             size="small"
             {...field}
-            onChange={(e) => setValue('address', e.target.value)}
             error={!!error}
           />
         )}
@@ -83,10 +81,10 @@ const Location = () => {
         }}>
         Tìm kiếm
       </Button>
-
-      <AdminLocation search={search} />
+      <Box />
+      <AdminRegistration search={search} />
     </Box>
   );
 };
 
-export default Location;
+export default Registration;
