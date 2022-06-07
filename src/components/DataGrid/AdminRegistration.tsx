@@ -8,18 +8,7 @@ import {
   useGridSelector
 } from '@mui/x-data-grid';
 import Pagination from '@mui/material/Pagination';
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogTitle,
-  TextField,
-  Typography
-} from '@mui/material';
-import { Clear } from '@mui/icons-material';
-import { Controller, useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { Box } from '@mui/material';
 import AdminRegistrationDialog from './AdminRegistrationDialog';
 
 interface DataGridProps {
