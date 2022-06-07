@@ -73,8 +73,10 @@ const _rows: Row[] = [
 const Document = () => {
   const [selectedId, setSelectedId] = useState<number | undefined>();
 
-  const handleClick = (rowData: Row) => {
-    setSelectedId(rowData.id);
+  const handleClick = (param: any) => {
+    if (param.field !== 'link') {
+      setSelectedId(param.row.id);
+    }
   };
 
   const [rows, setRows] = useState(_rows);
@@ -172,7 +174,7 @@ const Document = () => {
       }}>
       <DataGrid
         rows={currentRow}
-        onRowClick={(param) => handleClick(param.row)}
+        onCellClick={(param) => handleClick(param)}
         columns={columns}
         pagination
         pageSize={10}
