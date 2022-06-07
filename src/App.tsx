@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Register from './components/Register/Register';
+import AdminPage from './pages/AdminPage';
 import ForgotPage from './pages/ForgotPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
@@ -26,6 +27,7 @@ function App() {
           path="registration-step-3"
           element={<RegistrationPageThree />}></Route>
         <Route path="user-info" element={<UserPage />}></Route>
+        <Route path="admin" element={<AdminPage />}></Route>
       </Route>
       <Route path="/login" element={<LoginPage />}></Route>
       <Route path="/forgotPass" element={<ForgotPage />}></Route>

@@ -6,7 +6,7 @@ import ContainerLayout from '../ContainerLayout';
 import VaccineCertificate from './VaccineCertificate';
 import RegisterResult from './RegisterResult';
 import Account from './Account';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 
 export const enum AccountTabId {
   Certificate = 'certificate',
@@ -19,22 +19,37 @@ const Certificate = () => {
   const [value, setValue] = React.useState(
     searchParams.get('tab') || AccountTabId.Certificate
   );
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+  const handleChange = (
+    event: React.SyntheticEvent,
+    newValue: AccountTabId
+  ) => {
     setValue(newValue);
   };
 
   return (
     <ContainerLayout>
       <Box sx={{ width: '100%', typography: 'body1' }}>
-        <TabContext value={value}>
+        <TabContext value={searchParams.get('tab') || value}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 6 }}>
             <TabList onChange={handleChange} aria-label="lab API tabs example">
               <Tab
+                component={Link}
                 label="Chứng nhận tiêm chủng"
+                to={`/user-info?tab=${AccountTabId.Certificate}`}
                 value={AccountTabId.Certificate}
               />
-              <Tab label="Kết quả đăng ký" value={AccountTabId.Registration} />
-              <Tab label="Tài khoản" value={AccountTabId.Profile} />
+              <Tab
+                component={Link}
+                label="Kết quả đăng ký"
+                to={`/user-info?tab=${AccountTabId.Registration}`}
+                value={AccountTabId.Registration}
+              />
+              <Tab
+                component={Link}
+                label="Tài khoản"
+                to={`/user-info?tab=${AccountTabId.Profile}`}
+                value={AccountTabId.Profile}
+              />
             </TabList>
           </Box>
           <TabPanel value={AccountTabId.Certificate}>
