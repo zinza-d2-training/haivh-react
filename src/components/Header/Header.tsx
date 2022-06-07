@@ -9,7 +9,7 @@ import {
 } from '@mui/icons-material';
 import { indigo, deepPurple, blue, green } from '@mui/material/colors';
 import { useAppSelector } from '../../app/hooks';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as HeaderLink } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Link from '@mui/material/Link';
 import ContainerLayout from '../ContainerLayout';
@@ -75,12 +75,34 @@ const Header = () => {
           <div className="header-menu">
             <ul className="header-menu__list">
               <li className="header-menu__item">
-                <LinkNormal href="/">Trang chủ</LinkNormal>
+                <HeaderLink
+                  to="/"
+                  style={{
+                    fontSize: '16px',
+                    fontWeight: '500',
+                    lineHeight: '24px',
+                    letterSpacing: '-0.04px',
+                    color: '#fff',
+                    textDecoration: 'none',
+                    cursor: 'pointer'
+                  }}>
+                  Trang chủ
+                </HeaderLink>
               </li>
               <li className="header-menu__item">
-                <LinkNormal href="/registration-step-1">
+                <HeaderLink
+                  to="/registration-step-1"
+                  style={{
+                    fontSize: '16px',
+                    fontWeight: '500',
+                    lineHeight: '24px',
+                    letterSpacing: '-0.04px',
+                    color: '#fff',
+                    textDecoration: 'none',
+                    cursor: 'pointer'
+                  }}>
                   Đăng ký tiêm
-                </LinkNormal>
+                </HeaderLink>
               </li>
               <li className="header-menu__item more">
                 <LinkArrow href="#" underline="none">
@@ -90,8 +112,17 @@ const Header = () => {
 
                 <div className="header-menu__more">
                   <ul className="header-menu__more-list">
-                    <LinkNormal
-                      href={`/user-info?tab=${AccountTabId.Certificate}`}>
+                    <HeaderLink
+                      to={`/user-info?tab=${AccountTabId.Certificate}`}
+                      style={{
+                        fontSize: '16px',
+                        fontWeight: '500',
+                        lineHeight: '24px',
+                        letterSpacing: '-0.04px',
+                        color: '#fff',
+                        textDecoration: 'none',
+                        cursor: 'pointer'
+                      }}>
                       <li className="header-menu__more-item">
                         <div className="header-menu__more-icon">
                           <PeopleAlt
@@ -129,9 +160,18 @@ const Header = () => {
                           }}
                         />
                       </li>
-                    </LinkNormal>
-                    <LinkNormal
-                      href={`/user-info?tab=${AccountTabId.Registration}`}>
+                    </HeaderLink>
+                    <HeaderLink
+                      to={`/user-info?tab=${AccountTabId.Registration}`}
+                      style={{
+                        fontSize: '16px',
+                        fontWeight: '500',
+                        lineHeight: '24px',
+                        letterSpacing: '-0.04px',
+                        color: '#fff',
+                        textDecoration: 'none',
+                        cursor: 'pointer'
+                      }}>
                       <li className="header-menu__more-item">
                         <div className="header-menu__more-icon">
                           <PeopleAlt
@@ -169,8 +209,18 @@ const Header = () => {
                           }}
                         />
                       </li>
-                    </LinkNormal>
-                    <LinkNormal href={`/user-info?tab=${AccountTabId.Profile}`}>
+                    </HeaderLink>
+                    <HeaderLink
+                      to={`/user-info?tab=${AccountTabId.Profile}`}
+                      style={{
+                        fontSize: '16px',
+                        fontWeight: '500',
+                        lineHeight: '24px',
+                        letterSpacing: '-0.04px',
+                        color: '#fff',
+                        textDecoration: 'none',
+                        cursor: 'pointer'
+                      }}>
                       <li className="header-menu__more-item">
                         <div className="header-menu__more-icon">
                           <PeopleAlt
@@ -208,7 +258,7 @@ const Header = () => {
                           }}
                         />
                       </li>
-                    </LinkNormal>
+                    </HeaderLink>
                   </ul>
                 </div>
               </li>
