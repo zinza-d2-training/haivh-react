@@ -12,6 +12,7 @@ import { green, lightGreen } from '@mui/material/colors';
 import { loginAsync } from '../../features/user/userSlice';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { LoadingButton } from '@mui/lab';
+import { login } from '../../features/apiCall';
 
 interface FormData {
   email: string;
@@ -50,8 +51,9 @@ const Login = () => {
   const navigate = useNavigate();
 
   const onSubmit = async (data: FormData) => {
-    await dispatch(loginAsync(data));
-    navigate('/');
+    login(data);
+    // await dispatch(loginAsync(data));
+    // navigate('/');
   };
 
   const handleClickRegister = () => {
