@@ -12,7 +12,6 @@ import { green, lightGreen } from '@mui/material/colors';
 import { loginAsync } from '../../features/user/userSlice';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { LoadingButton } from '@mui/lab';
-import { login } from '../../features/apiCall';
 
 interface FormData {
   email: string;
@@ -37,6 +36,7 @@ const schema = yup
 
 const Login = () => {
   const loadingStatus = useAppSelector((state) => state.user.loading);
+  const status = useAppSelector((state) => state.user.status);
   const dispatch = useAppDispatch();
   const {
     control,
@@ -50,15 +50,14 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const onSubmit = async (data: FormData) => {
-    login(data);
-    // await dispatch(loginAsync(data));
-    // navigate('/');
+  const onSubmit = (data: FormData) => {
+    dispatch(loginAsync(data));
   };
 
   const handleClickRegister = () => {
     navigate('/register');
   };
+
   return (
     <>
       <div className="container">
@@ -117,6 +116,16 @@ const Login = () => {
                   )}
                 />
               </div>
+              {status === 'failed' && (
+                <Typography
+                  sx={{
+                    color: 'red',
+                    textAlign: 'center',
+                    mb: 1
+                  }}>
+                  Tài khoản hoặc mật khẩu không chính xác
+                </Typography>
+              )}
               <Link to="/forgotPass">
                 <Typography
                   align="right"
@@ -152,6 +161,7 @@ const Login = () => {
                 fontSize: '16px',
                 fontWeight: '400',
                 lineHeight: '24px',
+                textAlign: 'center',
                 mb: 3
               }}>
               Hoặc đăng ký tài khoản nếu bạn chưa đăng ký

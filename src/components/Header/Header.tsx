@@ -17,7 +17,7 @@ import { AccountTabId } from '../User/Certificate';
 
 const Header = () => {
   const navigate = useNavigate();
-  const user = useAppSelector((state) => state.user.value);
+  const user = useAppSelector((state) => state.user.value?.user);
 
   const handleLogin = () => {
     navigate('/login');
@@ -266,7 +266,7 @@ const Header = () => {
                 <LinkNormal href="/document">Tài liệu</LinkNormal>
               </li>
             </ul>
-            {user.email ? (
+            {user?.name ? (
               <Typography
                 sx={{
                   fontSize: '16px',
@@ -276,7 +276,7 @@ const Header = () => {
                   color: '#fff',
                   cursor: 'pointer'
                 }}>
-                {user.email}
+                {user.name}
               </Typography>
             ) : (
               <Button

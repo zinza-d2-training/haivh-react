@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchForgotPass, fetchUser } from './userAPI';
+import { publicRequest } from '../../requestMethod';
+import { fetchForgotPass } from './userAPI';
 
 export interface UserInfo {
   email: string;
@@ -11,10 +12,9 @@ export interface VaccineRegistrationInfo {
 }
 
 export interface UserState {
-  value: UserInfo;
-  status: 'idle' | 'loading' | 'failed';
+  value: any;
+  status: 'idle' | 'pending' | 'succeeded' | 'failed';
   loading: true | false;
-  token: number;
   emailForgot: string;
   vaccineRegistrationInfo: VaccineRegistrationInfo;
 }
@@ -26,7 +26,6 @@ const initialState: UserState = {
   },
   status: 'idle',
   loading: false,
-  token: 0,
   emailForgot: '',
   vaccineRegistrationInfo: {
     insurance: ''
@@ -34,11 +33,10 @@ const initialState: UserState = {
 };
 
 export const loginAsync = createAsyncThunk(
-  'user/fetchUser',
-  async (info: UserInfo) => {
-    const response = await fetchUser(info);
-    // The value we return becomes the `fulfilled` action payload
-    return response.data;
+  'user/login',
+  async (loginInfo: UserInfo) => {
+    const res = await publicRequest.post('/auth/login', loginInfo);
+    return res.data;
   }
 );
 
@@ -64,20 +62,20 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginAsync.pending, (state) => {
-        state.status = 'loading';
+        state.status = 'pending';
         state.loading = true;
       })
       .addCase(loginAsync.fulfilled, (state, action) => {
-        state.status = 'idle';
+        state.status = 'succeeded';
         state.loading = false;
         state.value = action.payload;
-        state.token = Math.random();
       })
       .addCase(loginAsync.rejected, (state) => {
         state.status = 'failed';
+        state.loading = false;
       })
       .addCase(forgotAsync.pending, (state) => {
-        state.status = 'loading';
+        state.status = 'pending';
         state.loading = true;
       })
       .addCase(forgotAsync.fulfilled, (state, action) => {
