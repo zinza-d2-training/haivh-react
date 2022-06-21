@@ -4,7 +4,6 @@ import {
   Action,
   combineReducers
 } from '@reduxjs/toolkit';
-import userReducer from '../features/user/userSlice';
 import {
   persistStore,
   persistReducer,
@@ -16,15 +15,19 @@ import {
   REGISTER
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import userReducer from '../features/user/userSlice';
+import registerReducer from '../features/user/registerSlice';
 
 const persistConfig = {
   key: 'root',
   version: 1,
-  storage
+  storage,
+  whitelist: ['user']
 };
 
 const rootReducer = combineReducers({
-  user: userReducer
+  user: userReducer,
+  register: registerReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
