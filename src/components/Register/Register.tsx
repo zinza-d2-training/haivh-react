@@ -22,7 +22,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 
 import './Register.css';
 import Side_Left from '../../img/Side_Left.png';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { registerAsync } from '../../features/user/registerSlice';
 import { publicRequest } from '../../requestMethod';
 
@@ -101,6 +101,8 @@ interface Province {
 
 const Register = () => {
   const dispatch = useAppDispatch();
+  const status = useAppSelector((state) => state.register.status);
+  const error = useAppSelector((state) => state.register.error);
   const [data, setData] = useState([]);
   useEffect(() => {
     const getData = async () => {
@@ -563,6 +565,16 @@ const Register = () => {
                   </FormControl>
                 )}
               />
+              {status === 'failed' && (
+                <Typography
+                  sx={{
+                    color: 'red',
+                    textAlign: 'center',
+                    mb: 1
+                  }}>
+                  {error !== '' ? error : 'Đăng ký thất bại, hãy thử lại!!!'}
+                </Typography>
+              )}
             </div>
 
             <Button
