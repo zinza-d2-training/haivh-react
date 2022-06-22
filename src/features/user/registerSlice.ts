@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AxiosResponse } from 'axios';
 import { axiosInstance } from '../../requestMethod';
-import { ResponseDataUserRegister } from '../types';
 
 export interface RegisterInfo {
   identity_card: string;
