@@ -24,7 +24,7 @@ import './Register.css';
 import Side_Left from '../../img/Side_Left.png';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { registerAsync } from '../../features/user/registerSlice';
-import { publicRequest } from '../../requestMethod';
+import { axiosInstance } from '../../requestMethod';
 
 interface FormData {
   identity_card: string;
@@ -107,7 +107,7 @@ const Register = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await publicRequest.get('/subdivisions');
+        const res = await axiosInstance.get('/subdivisions');
         setData(res.data);
       } catch (err) {
         console.log(err);

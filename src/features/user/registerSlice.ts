@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { publicRequest } from '../../requestMethod';
+import { axiosInstance } from '../../requestMethod';
 
 export interface RegisterInfo {
   identity_card: string;
@@ -39,7 +39,7 @@ export const registerAsync = createAsyncThunk(
   'register',
   async (registerInfo: RegisterInfo, { rejectWithValue }) => {
     try {
-      const res = await publicRequest.post('/auth/register', registerInfo);
+      const res = await axiosInstance.post('/auth/register', registerInfo);
       return res.data;
     } catch (err: any) {
       return rejectWithValue(err.response.data.message);

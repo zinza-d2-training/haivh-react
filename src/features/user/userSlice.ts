@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { publicRequest } from '../../requestMethod';
+import { axiosInstance } from '../../requestMethod';
 import { fetchForgotPass } from './userAPI';
 
 export interface UserInfo {
@@ -35,7 +35,7 @@ const initialState: UserState = {
 export const loginAsync = createAsyncThunk(
   'user/login',
   async (loginInfo: UserInfo) => {
-    const res = await publicRequest.post('/auth/login', loginInfo);
+    const res = await axiosInstance.post('/auth/login', loginInfo);
     return res.data;
   }
 );
