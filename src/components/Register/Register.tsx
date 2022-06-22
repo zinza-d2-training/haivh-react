@@ -109,9 +109,7 @@ const Register = () => {
       try {
         const res = await axiosInstance.get('/subdivisions');
         setData(res.data);
-      } catch (err) {
-        console.log(err);
-      }
+      } catch (err) {}
     };
     getData();
   }, []);
