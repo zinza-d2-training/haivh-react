@@ -35,7 +35,7 @@ const initialState: UserState = {
 export const loginAsync = createAsyncThunk(
   'user/login',
   async (loginInfo: UserInfo): Promise<UserInfo> => {
-    const res = await axiosInstance.post('/auth/login', loginInfo);
+    const res = await axiosInstance.post<UserInfo>('/auth/login', loginInfo);
     return res.data;
   }
 );
