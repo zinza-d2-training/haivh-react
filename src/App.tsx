@@ -14,7 +14,9 @@ import RegistrationPageTwo from './pages/RegistrationPageTwo';
 import UserPage from './pages/UserPage';
 
 function App() {
-  const status = useAppSelector((state) => state.user.status);
+  const loginStatus = useAppSelector((state) => state.user.status);
+  const registerStatus = useAppSelector((state) => state.register.status);
+
   return (
     <Routes>
       <Route path="/" element={<MainPage />}>
@@ -34,10 +36,18 @@ function App() {
       <Route
         path="/login"
         element={
-          status === 'succeeded' ? <Navigate to="/" /> : <LoginPage />
+          loginStatus === 'succeeded' ? <Navigate to="/" /> : <LoginPage />
         }></Route>
       <Route path="/forgotPass" element={<ForgotPage />}></Route>
-      <Route path="/register" element={<Register />}></Route>
+      <Route
+        path="/register"
+        element={
+          registerStatus === 'succeeded' ? (
+            <Navigate to="/login" />
+          ) : (
+            <Register />
+          )
+        }></Route>
     </Routes>
   );
 }
