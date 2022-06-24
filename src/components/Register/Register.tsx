@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Button,
   FormControlLabel,
@@ -22,41 +22,47 @@ import FormHelperText from '@mui/material/FormHelperText';
 
 import './Register.css';
 import Side_Left from '../../img/Side_Left.png';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { registerAsync } from '../../features/user/registerSlice';
+import { axiosInstance } from '../../requestMethod';
 
 interface FormData {
-  id: string;
+  identity_card: string;
   email: string;
   password: string;
   name: string;
-  date: string;
+  dob: Date | string;
   gender: string;
   province_id: number | string;
   district_id: number | string;
   ward_id: number | string;
+  role_id: number | string;
 }
 
 const defaultValues = {
-  id: '',
+  identity_card: '',
   email: '',
   password: '',
   name: '',
-  date: '',
+  dob: '',
   gender: '',
   province_id: 0,
   district_id: 0,
-  ward_id: 0
+  ward_id: 0,
+  role_id: 2
 };
 const schema = yup
   .object({
-    id: yup.string().required().min(9).max(12),
+    identity_card: yup.string().required().min(9).max(12),
     email: yup.string().email().required(),
     password: yup
       .string()
       .required()
       .min(8)
       .matches(/^\S*$/, 'Mật khẩu không được có khoảng trắng'),
+    name: yup.string().required(),
     gender: yup.string().required(),
-    date: yup.string().nullable().required('Date is required field'),
+    dob: yup.string().nullable().required('Date is required field'),
     province_id: yup.number().min(1, 'Thông tin không được để trống'),
     district_id: yup
       .number()
@@ -70,6 +76,9 @@ interface Ward {
   id: number;
   name: string;
   district_id: number;
+  create_at: string;
+  update_at: string;
+  delete_at: string;
 }
 
 interface District {
@@ -77,96 +86,35 @@ interface District {
   name: string;
   wards: Ward[];
   province_id: number;
+  create_at: string;
+  update_at: string;
+  delete_at: string;
 }
 interface Province {
   id: number;
   name: string;
   districts: District[];
+  create_at: string;
+  update_at: string;
+  delete_at: string;
 }
 
-const provinces: Province[] = [
-  {
-    id: 1,
-    name: 'Hà Nội',
-    districts: [
-      {
-        id: 1,
-        name: 'Hoàn Kiếm',
-        province_id: 1,
-        wards: [
-          {
-            id: 1,
-            name: 'Chương Dương',
-            district_id: 1
-          },
-          {
-            id: 2,
-            name: 'Cửa Nam',
-            district_id: 1
-          }
-        ]
-      },
-      {
-        id: 2,
-        name: 'Hà Đông',
-        province_id: 1,
-        wards: [
-          {
-            id: 1,
-            name: 'La Khê',
-            district_id: 2
-          },
-          {
-            id: 2,
-            name: 'Nguyễn Trãi',
-            district_id: 2
-          }
-        ]
-      }
-    ]
-  },
-  {
-    id: 2,
-    name: 'Hồ Chí Minh',
-    districts: [
-      {
-        id: 1,
-        name: 'Quận 1',
-        province_id: 2,
-        wards: [
-          {
-            id: 1,
-            name: 'Bến Nghé',
-            district_id: 1
-          },
-          {
-            id: 2,
-            name: 'Bến Thành',
-            district_id: 1
-          }
-        ]
-      },
-      {
-        id: 2,
-        name: 'Quận 2',
-        province_id: 2,
-        wards: [
-          {
-            id: 1,
-            name: 'An Khánh',
-            district_id: 2
-          },
-          {
-            id: 2,
-            name: 'An Phú',
-            district_id: 2
-          }
-        ]
-      }
-    ]
-  }
-];
 const Register = () => {
+  const dispatch = useAppDispatch();
+  const status = useAppSelector((state) => state.register.status);
+  const error = useAppSelector((state) => state.register.error);
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await axiosInstance.get('/subdivisions');
+        setData(res.data);
+      } catch (err) {}
+    };
+    getData();
+  }, []);
+  const provinces: Province[] = data;
+
   const {
     control,
     handleSubmit,
@@ -199,7 +147,7 @@ const Register = () => {
     return (
       provinces.find((province) => province.id === provinceId)?.districts ?? []
     );
-  }, [provinceId]);
+  }, [provinceId, provinces]);
 
   const wards = useMemo(() => {
     return (
@@ -207,6 +155,10 @@ const Register = () => {
     );
   }, [districtId, districts]);
 
+  const onSubmit = (data: FormData) => {
+    const { province_id, district_id, ...registerInfo } = data;
+    dispatch(registerAsync(registerInfo));
+  };
   return (
     <>
       <div className="container">
@@ -226,7 +178,7 @@ const Register = () => {
 
           <form
             className="side-right-form__register"
-            onSubmit={handleSubmit(() => {})}>
+            onSubmit={handleSubmit(onSubmit)}>
             <div className="form-input__register">
               <Typography
                 align="left"
@@ -246,7 +198,7 @@ const Register = () => {
                 </Typography>
               </Typography>
               <Controller
-                name="id"
+                name="identity_card"
                 control={control}
                 render={({ field, fieldState: { error } }) => (
                   <TextField
@@ -344,6 +296,41 @@ const Register = () => {
                   fontSize: '16px',
                   lineHeight: '24px'
                 }}>
+                Họ và tên
+                <Typography
+                  sx={{
+                    marginLeft: '2px',
+                    display: 'inline-block',
+                    color: 'red'
+                  }}>
+                  (*)
+                </Typography>
+              </Typography>
+              <Controller
+                name="name"
+                control={control}
+                render={({ field, fieldState: { error } }) => (
+                  <TextField
+                    placeholder="Họ và rên"
+                    sx={{
+                      width: '100%',
+                      mb: 2
+                    }}
+                    {...field}
+                    error={!!error}
+                    helperText={error?.message}
+                  />
+                )}
+              />
+            </div>
+            <div className="form-input__register">
+              <Typography
+                align="left"
+                gutterBottom
+                sx={{
+                  fontSize: '16px',
+                  lineHeight: '24px'
+                }}>
                 Ngày sinh
                 <Typography
                   sx={{
@@ -357,7 +344,7 @@ const Register = () => {
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Stack sx={{ width: '100%', mb: 4 }}>
                   <Controller
-                    name="date"
+                    name="dob"
                     control={control}
                     render={({ field, fieldState: { error } }) => (
                       <FormControl>
@@ -410,12 +397,12 @@ const Register = () => {
                         field.onChange(event.target.value);
                       }}>
                       <FormControlLabel
-                        value="nale"
+                        value="nam"
                         control={<Radio />}
                         label="Nam"
                       />
                       <FormControlLabel
-                        value="female"
+                        value="nữ"
                         control={<Radio />}
                         label="Nữ"
                       />
@@ -576,6 +563,16 @@ const Register = () => {
                   </FormControl>
                 )}
               />
+              {status === 'failed' && (
+                <Typography
+                  sx={{
+                    color: 'red',
+                    textAlign: 'center',
+                    mb: 1
+                  }}>
+                  {error !== '' ? error : 'Đăng ký thất bại, hãy thử lại!!!'}
+                </Typography>
+              )}
             </div>
 
             <Button
@@ -583,9 +580,10 @@ const Register = () => {
               type="submit"
               variant="outlined"
               sx={{
-                mt: 3,
-                backgroundColor: '#fff',
-                ml: 35
+                mt: 1,
+                mb: 2,
+                ml: 35,
+                backgroundColor: '#fff'
               }}
               endIcon={<ArrowRightAlt />}>
               Tiếp tục

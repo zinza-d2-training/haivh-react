@@ -1,6 +1,7 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
+import { useAppSelector } from './app/hooks';
 import Register from './components/Register/Register';
 import AdminPage from './pages/AdminPage';
 import ForgotPage from './pages/ForgotPage';
@@ -13,6 +14,9 @@ import RegistrationPageTwo from './pages/RegistrationPageTwo';
 import UserPage from './pages/UserPage';
 
 function App() {
+  const loginStatus = useAppSelector((state) => state.user.status);
+  const registerStatus = useAppSelector((state) => state.register.status);
+
   return (
     <Routes>
       <Route path="/" element={<MainPage />}>
@@ -29,9 +33,21 @@ function App() {
         <Route path="user-info" element={<UserPage />}></Route>
         <Route path="admin" element={<AdminPage />}></Route>
       </Route>
-      <Route path="/login" element={<LoginPage />}></Route>
+      <Route
+        path="/login"
+        element={
+          loginStatus === 'succeeded' ? <Navigate to="/" /> : <LoginPage />
+        }></Route>
       <Route path="/forgotPass" element={<ForgotPage />}></Route>
-      <Route path="/register" element={<Register />}></Route>
+      <Route
+        path="/register"
+        element={
+          registerStatus === 'succeeded' ? (
+            <Navigate to="/login" />
+          ) : (
+            <Register />
+          )
+        }></Route>
     </Routes>
   );
 }
