@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { axiosInstance } from '../../requestMethod';
-import { fetchForgotPass } from './userAPI';
 
 export interface UserInfo {
   email: string;
@@ -15,7 +14,6 @@ export interface UserState {
   value: any;
   status: 'idle' | 'pending' | 'succeeded' | 'failed';
   loading: true | false;
-  emailForgot: string;
   vaccineRegistrationInfo: VaccineRegistrationInfo;
 }
 
@@ -26,7 +24,6 @@ const initialState: UserState = {
   },
   status: 'idle',
   loading: false,
-  emailForgot: '',
   vaccineRegistrationInfo: {
     insurance: ''
   }
@@ -37,14 +34,6 @@ export const loginAsync = createAsyncThunk(
   async (loginInfo: UserInfo): Promise<UserInfo> => {
     const res = await axiosInstance.post<UserInfo>('/auth/login', loginInfo);
     return res.data;
-  }
-);
-
-export const forgotAsync = createAsyncThunk(
-  'user/fetchForgotPass',
-  async (emailForgot: string) => {
-    const response = await fetchForgotPass(emailForgot);
-    return response.data;
   }
 );
 
@@ -73,18 +62,6 @@ export const userSlice = createSlice({
       .addCase(loginAsync.rejected, (state) => {
         state.status = 'failed';
         state.loading = false;
-      })
-      .addCase(forgotAsync.pending, (state) => {
-        state.status = 'pending';
-        state.loading = true;
-      })
-      .addCase(forgotAsync.fulfilled, (state, action) => {
-        state.status = 'idle';
-        state.loading = false;
-        state.emailForgot = action.payload;
-      })
-      .addCase(forgotAsync.rejected, (state) => {
-        state.status = 'failed';
       });
   }
 });

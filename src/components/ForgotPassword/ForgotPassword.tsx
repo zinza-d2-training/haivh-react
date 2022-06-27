@@ -8,9 +8,9 @@ import { Controller, useForm } from 'react-hook-form';
 
 import Side_Left from '../../img/Side_Left.png';
 import './ForgotPassword.css';
-import { forgotAsync } from '../../features/user/userSlice';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { useNavigate } from 'react-router-dom';
+import { forgotPasswordAsync } from '../../features/user/forgotPasswordSlice';
 
 interface FormData {
   email: string;
@@ -25,7 +25,8 @@ const schema = yup.object({
 });
 
 const ForgotPassword = () => {
-  const loadingStatus = useAppSelector((state) => state.user.loading);
+  const loadingStatus = useAppSelector((state) => state.forgotPassword.loading);
+  const message = useAppSelector((state) => state.forgotPassword.message);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -40,8 +41,11 @@ const ForgotPassword = () => {
   });
 
   const onSubmit = async (data: FormData) => {
-    await dispatch(forgotAsync(data.email));
-    navigate('/login');
+    await dispatch(forgotPasswordAsync(data));
+  };
+
+  const handleBack = () => {
+    navigate('/');
   };
   return (
     <>
@@ -88,8 +92,21 @@ const ForgotPassword = () => {
                   />
                 )}
               />
+              {message !== '' ? (
+                <Typography
+                  sx={{
+                    color: 'red',
+                    textAlign: 'center',
+                    mb: 1
+                  }}>
+                  {message}
+                </Typography>
+              ) : (
+                ''
+              )}
               <div className="btn-group">
                 <Button
+                  onClick={handleBack}
                   variant="outlined"
                   sx={{
                     margin: '12px  16px 12px 0',
@@ -100,7 +117,7 @@ const ForgotPassword = () => {
                       backgroundColor: '#fff'
                     }
                   }}>
-                  Đăng ký
+                  Quay lại
                 </Button>
                 <LoadingButton
                   loading={loadingStatus}
@@ -115,7 +132,7 @@ const ForgotPassword = () => {
                       backgroundColor: indigo[700]
                     }
                   }}>
-                  Đăng nhập
+                  Gửi
                 </LoadingButton>
               </div>
             </form>
