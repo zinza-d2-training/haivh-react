@@ -187,19 +187,20 @@ export interface Row {
 // ];
 
 const AdminLocation = ({ search }: DataGridProps) => {
-  const [data, setData] = useState([]);
+  const [rows, setRows] = useState<Row[]>([]);
+  // const [data, setData] = useState([]);
   useEffect(() => {
     const getVaccineSite = async () => {
       try {
         const res = await axiosInstance.get('/vaccination-sites');
-        setData(res.data);
+        setRows(res.data);
       } catch (err) {
         console.log(err);
       }
     };
     getVaccineSite();
   }, []);
-  const rows: Row[] = data;
+  // const rows: Row[] = data;
   const _rows = rows.map((row) => ({
     id: row.id,
     name: row.name,
@@ -306,16 +307,16 @@ const AdminLocation = ({ search }: DataGridProps) => {
   };
 
   const onSubmit = (data: Row) => {
-    // setRows(
-    //   rows.map((row) => {
-    //     if (row.id === data.id) {
-    //       return {
-    //         ...data
-    //       };
-    //     }
-    //     return row;
-    //   })
-    // );
+    setRows(
+      rows.map((row) => {
+        if (row.id === data.id) {
+          return {
+            ...data
+          };
+        }
+        return row;
+      })
+    );
   };
 
   return (
