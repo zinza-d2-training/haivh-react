@@ -123,7 +123,7 @@ const AdminLocationDialog = ({ data, onSubmit, onClose }: Props) => {
         <Box mb={3}>
           <Typography mb={0.625}>Người đứng đầu cơ sở</Typography>
           <Controller
-            name="leader"
+            name="manager"
             control={control}
             render={({ field, fieldState: { error } }) => (
               <TextField
@@ -139,7 +139,7 @@ const AdminLocationDialog = ({ data, onSubmit, onClose }: Props) => {
         <Box mb={3}>
           <Typography mb={0.625}>Số bàn tiêm</Typography>
           <Controller
-            name="numberTable"
+            name="number_table"
             control={control}
             render={({ field, fieldState: { error } }) => (
               <TextField

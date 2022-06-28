@@ -41,8 +41,6 @@ interface Row {
       };
     };
   };
-  provinceId: number;
-  districtId: number;
 }
 
 // const rows: Row[] = [
