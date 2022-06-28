@@ -182,7 +182,7 @@ const Location = () => {
     return (
       provinces.find((province) => province.id === provinceId)?.districts ?? []
     );
-  }, [provinceId]);
+  }, [provinceId, provinces]);
 
   const wards = useMemo(() => {
     return (
