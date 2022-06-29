@@ -2,11 +2,11 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { axiosInstance } from '../../requestMethod';
 
 export interface SiteInfo {
+  id: number;
   name: string;
   address: string;
   manager: string;
   number_table: number;
-  ward_id: number;
 }
 
 export interface SiteState {
@@ -18,25 +18,31 @@ export interface SiteState {
 
 const initialState: SiteState = {
   value: {
+    id: 0,
     name: '',
     address: '',
     manager: '',
-    number_table: 0,
-    ward_id: 0
+    number_table: 0
   },
   status: 'idle',
   loading: false,
   error: ''
 };
 
-export const listVaccinationSiteAsync = createAsyncThunk('list', async () => {
-  try {
-    const res = await axiosInstance.get('/vaccination-sites');
-    return res.data;
-  } catch (err: any) {
-    return err;
+export const updateSiteAsync = createAsyncThunk(
+  'vaccine/update',
+  async (updateInfo: SiteInfo) => {
+    try {
+      const res = await axiosInstance.patch(
+        `/vaccination-sites/${updateInfo.id}`,
+        updateInfo
+      );
+      return res.data;
+    } catch (err: any) {
+      return err;
+    }
   }
-});
+);
 
 export const siteSlice = createSlice({
   name: 'site',
@@ -44,16 +50,16 @@ export const siteSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(listVaccinationSiteAsync.pending, (state) => {
+      .addCase(updateSiteAsync.pending, (state) => {
         state.status = 'pending';
         state.loading = true;
       })
-      .addCase(listVaccinationSiteAsync.fulfilled, (state, action) => {
+      .addCase(updateSiteAsync.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.loading = false;
         state.value = action.payload;
       })
-      .addCase(listVaccinationSiteAsync.rejected, (state, action) => {
+      .addCase(updateSiteAsync.rejected, (state, action) => {
         state.status = 'failed';
         state.loading = false;
         state.error = action.payload;

@@ -9,8 +9,10 @@ import {
 } from '@mui/x-data-grid';
 import Pagination from '@mui/material/Pagination';
 import { Box } from '@mui/material';
-import AdminLocationDialog from './AdminLocationDialog';
+import AdminLocationDialog, { _Row } from './AdminLocationDialog';
 import { axiosInstance } from '../../requestMethod';
+import { useAppDispatch } from '../../app/hooks';
+import { updateSiteAsync } from '../../features/vaccine/sitesSlice';
 interface DataGridProps {
   search: {
     locationInfo: string;
@@ -18,7 +20,7 @@ interface DataGridProps {
   };
 }
 
-export interface Row {
+interface Row {
   id: number;
   name: string;
   address: string;
@@ -187,8 +189,10 @@ export interface Row {
 // ];
 
 const AdminLocation = ({ search }: DataGridProps) => {
+  const dispatch = useAppDispatch();
   const [rows, setRows] = useState<Row[]>([]);
-  // const [data, setData] = useState([]);
+  const [_rows, _setRows] = useState<_Row[]>([]);
+
   useEffect(() => {
     const getVaccineSite = async () => {
       try {
@@ -199,21 +203,23 @@ const AdminLocation = ({ search }: DataGridProps) => {
       }
     };
     getVaccineSite();
-  }, []);
-  // const rows: Row[] = data;
-  const _rows = rows.map((row) => ({
-    id: row.id,
-    name: row.name,
-    address: row.address,
-    ward: row.ward.name,
-    ward_id: row.ward_id,
-    district: row.ward.district.name,
-    district_id: row.ward.district_id,
-    province: row.ward.district.province.name,
-    province_id: row.ward.district.province_id,
-    manager: row.manager,
-    number_table: row.number_table
-  }));
+  }, [_rows]);
+
+  useMemo(
+    () =>
+      _setRows(
+        rows.map((row) => ({
+          id: row.id,
+          name: row.name,
+          address: row.address,
+          ward_id: row.ward_id,
+          manager: row.manager,
+          number_table: row.number_table
+        }))
+      ),
+    [rows]
+  );
+
   const [selectedId, setSelectedId] = useState<number | undefined>();
 
   const handleClick = (rowData: Row) => {
@@ -221,8 +227,8 @@ const AdminLocation = ({ search }: DataGridProps) => {
   };
 
   const selectedRow = useMemo(
-    () => rows.find((row) => row.id === selectedId),
-    [rows, selectedId]
+    () => _rows.find((row) => row.id === selectedId),
+    [_rows, selectedId]
   );
 
   const currentRows = useMemo(() => {
@@ -238,26 +244,26 @@ const AdminLocation = ({ search }: DataGridProps) => {
           index: index + 1
         }));
     } else if (search.locationInfo !== '') {
-      return rows
+      return _rows
         .filter((row) => row.name === search.locationInfo)
         .map((item, index) => ({
           ...item,
           index: index + 1
         }));
     } else if (search.addressInfo !== '') {
-      return rows
+      return _rows
         .filter((row) => row.address === search.addressInfo)
         .map((item, index) => ({
           ...item,
           index: index + 1
         }));
     } else {
-      return rows.map((row, index) => ({
+      return _rows.map((row, index) => ({
         ...row,
         index: index + 1
       }));
     }
-  }, [_rows, rows, search.addressInfo, search.locationInfo]);
+  }, [_rows, search.addressInfo, search.locationInfo]);
 
   const columns: GridColDef[] = [
     {
@@ -306,17 +312,8 @@ const AdminLocation = ({ search }: DataGridProps) => {
     );
   };
 
-  const onSubmit = (data: Row) => {
-    setRows(
-      rows.map((row) => {
-        if (row.id === data.id) {
-          return {
-            ...data
-          };
-        }
-        return row;
-      })
-    );
+  const onSubmit = (data: _Row) => {
+    dispatch(updateSiteAsync(data));
   };
 
   return (

@@ -18,7 +18,7 @@ import storage from 'redux-persist/lib/storage';
 import userReducer from '../features/user/userSlice';
 import registerReducer from '../features/user/registerSlice';
 import forgotPasswordReducer from '../features/user/forgotPasswordSlice';
-//import vaccinationReducer from '../features/vaccine/sitesSlice';
+import updateVaccinationReducer from '../features/vaccine/sitesSlice';
 const persistConfig = {
   key: 'root',
   version: 1,
@@ -29,8 +29,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
   user: userReducer,
   register: registerReducer,
-  forgotPassword: forgotPasswordReducer
-  //vaccinationSites: vaccinationReducer
+  forgotPassword: forgotPasswordReducer,
+  updateSite: updateVaccinationReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
