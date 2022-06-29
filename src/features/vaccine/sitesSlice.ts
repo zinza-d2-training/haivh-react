@@ -33,7 +33,7 @@ export const updateSiteAsync = createAsyncThunk(
   'vaccine/update',
   async (updateInfo: SiteInfo) => {
     try {
-      const res = await axiosInstance.patch(
+      const res = await axiosInstance.patch<SiteInfo>(
         `/vaccination-sites/${updateInfo.id}`,
         updateInfo
       );

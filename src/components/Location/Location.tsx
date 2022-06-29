@@ -13,6 +13,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import { axiosInstance } from '../../requestMethod';
+import { AxiosResponse } from 'axios';
 
 interface FormData {
   province_id: number | string;
@@ -57,11 +58,11 @@ const ShadowBox = styled(Box)`
 `;
 
 const Location = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Province[]>([]);
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axiosInstance.get('/subdivisions');
+        const res = await axiosInstance.get<Province[]>('/subdivisions');
         setData(res.data);
       } catch (err) {}
     };
