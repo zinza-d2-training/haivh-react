@@ -12,31 +12,37 @@ import {
 } from '@mui/material';
 import { Clear } from '@mui/icons-material';
 
-import { Row } from './AdminLocation';
-
 const schema = yup
   .object({
     name: yup.string().required(),
     address: yup.string().required(),
-    leader: yup.string().required(),
-    numberTable: yup.number().min(0)
+    manager: yup.string().required(),
+    number_table: yup.number().min(0)
   })
   .required();
 
+export interface _Row {
+  id: number;
+  name: string;
+  address: string;
+  ward_id: number;
+  manager: string;
+  number_table: number;
+}
 interface Props {
-  data: Row;
-  onSubmit: (data: Row) => void;
+  data: _Row;
+  onSubmit: (data: _Row) => void;
   onClose: () => void;
 }
 
 const AdminLocationDialog = ({ data, onSubmit, onClose }: Props) => {
-  const { control, handleSubmit } = useForm<Row>({
+  const { control, handleSubmit } = useForm<_Row>({
     defaultValues: data,
     mode: 'onChange',
     resolver: yupResolver(schema)
   });
 
-  const Submit = (data: Row) => {
+  const Submit = (data: _Row) => {
     onSubmit(data);
     onClose();
   };
@@ -123,7 +129,7 @@ const AdminLocationDialog = ({ data, onSubmit, onClose }: Props) => {
         <Box mb={3}>
           <Typography mb={0.625}>Người đứng đầu cơ sở</Typography>
           <Controller
-            name="leader"
+            name="manager"
             control={control}
             render={({ field, fieldState: { error } }) => (
               <TextField
@@ -139,7 +145,7 @@ const AdminLocationDialog = ({ data, onSubmit, onClose }: Props) => {
         <Box mb={3}>
           <Typography mb={0.625}>Số bàn tiêm</Typography>
           <Controller
-            name="numberTable"
+            name="number_table"
             control={control}
             render={({ field, fieldState: { error } }) => (
               <TextField

@@ -16,7 +16,7 @@ const initialState: ForgotState = {
 export const forgotPasswordAsync = createAsyncThunk(
   'forgotPassword',
   async (email: Object): Promise<string> => {
-    const res = await axiosInstance.post('forgot-password', email);
+    const res = await axiosInstance.post<ForgotState>('forgot-password', email);
     return res.data.message;
   }
 );

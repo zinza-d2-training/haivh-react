@@ -12,6 +12,8 @@ import DataGird from '../DataGrid/DataGird';
 import { Controller, useForm } from 'react-hook-form';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
+import { axiosInstance } from '../../requestMethod';
+import { AxiosResponse } from 'axios';
 
 interface FormData {
   province_id: number | string;
@@ -43,94 +45,6 @@ interface Province {
   districts: District[];
 }
 
-const provinces: Province[] = [
-  {
-    id: 1,
-    name: 'Hà Nội',
-    districts: [
-      {
-        id: 1,
-        name: 'Ba Đình',
-        province_id: 1,
-        wards: [
-          {
-            id: 1,
-            name: 'Phúc Xá',
-            district_id: 1
-          },
-          {
-            id: 2,
-            name: 'Trúc Bạch',
-            district_id: 1
-          },
-          {
-            id: 3,
-            name: 'Vĩnh Phúc',
-            district_id: 1
-          },
-          {
-            id: 4,
-            name: 'Cống Vị',
-            district_id: 1
-          },
-          {
-            id: 5,
-            name: 'Liễu Giai',
-            district_id: 1
-          },
-          {
-            id: 6,
-            name: 'Nguyễn Trung Trực',
-            district_id: 1
-          },
-          {
-            id: 7,
-            name: 'Quán Thánh',
-            district_id: 1
-          }
-        ]
-      },
-      {
-        id: 2,
-        name: 'Hà Đông',
-        province_id: 1,
-        wards: [
-          {
-            id: 1,
-            name: 'Nguyễn Trãi',
-            district_id: 2
-          },
-          {
-            id: 2,
-            name: 'Mộ Lao',
-            district_id: 2
-          },
-          {
-            id: 3,
-            name: 'Văn Quán',
-            district_id: 2
-          },
-          {
-            id: 4,
-            name: 'Vạn Phúc',
-            district_id: 2
-          },
-          {
-            id: 5,
-            name: 'Yết Kiêu',
-            district_id: 2
-          },
-          {
-            id: 6,
-            name: 'Quang Trung',
-            district_id: 2
-          }
-        ]
-      }
-    ]
-  }
-];
-
 const LocationSortContainer = styled(Box)`
   display: flex;
   margin-bottom: 16px;
@@ -144,6 +58,17 @@ const ShadowBox = styled(Box)`
 `;
 
 const Location = () => {
+  const [data, setData] = useState<Province[]>([]);
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await axiosInstance.get<Province[]>('/subdivisions');
+        setData(res.data);
+      } catch (err) {}
+    };
+    getData();
+  }, []);
+  const provinces: Province[] = data;
   const { control, setValue, watch } = useForm<FormData>({
     defaultValues,
     mode: 'onChange'
@@ -170,7 +95,7 @@ const Location = () => {
     return (
       provinces.find((province) => province.id === provinceId)?.districts ?? []
     );
-  }, [provinceId]);
+  }, [provinceId, provinces]);
 
   const wards = useMemo(() => {
     return (
