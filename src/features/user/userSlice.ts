@@ -6,15 +6,10 @@ export interface UserInfo {
   password: string;
 }
 
-export interface VaccineRegistrationInfo {
-  insurance: string;
-}
-
 export interface UserState {
   value: any;
   status: 'idle' | 'pending' | 'succeeded' | 'failed';
   loading: true | false;
-  vaccineRegistrationInfo: VaccineRegistrationInfo;
 }
 
 const initialState: UserState = {
@@ -23,10 +18,7 @@ const initialState: UserState = {
     password: ''
   },
   status: 'idle',
-  loading: false,
-  vaccineRegistrationInfo: {
-    insurance: ''
-  }
+  loading: false
 };
 
 export const loginAsync = createAsyncThunk(
@@ -40,14 +32,7 @@ export const loginAsync = createAsyncThunk(
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    vaccineRegistration: (
-      state,
-      action: PayloadAction<VaccineRegistrationInfo>
-    ) => {
-      state.vaccineRegistrationInfo = action.payload;
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(loginAsync.pending, (state) => {
@@ -66,5 +51,5 @@ export const userSlice = createSlice({
   }
 });
 
-export const { vaccineRegistration } = userSlice.actions;
+export const {} = userSlice.actions;
 export default userSlice.reducer;
