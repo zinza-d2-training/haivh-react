@@ -53,10 +53,13 @@ const TextInfo = styled(Typography)`
 
 const PDFBox = styled(Box)``;
 const RegistrationStep3 = () => {
-  const navigate = useNavigate();
-  const insuranceInfo = useAppSelector(
-    (state) => state.user.vaccineRegistrationInfo.insurance
+  const user = useAppSelector((state) => state.user.value.user);
+  const userDoB = new Date(user.dob).toLocaleDateString('en-US');
+  const vaccineRegistrationInfo = useAppSelector(
+    (state) => state.vaccineRegistration.vaccineRegistrationInfo
   );
+
+  const navigate = useNavigate();
 
   const handleHomepage = () => {
     navigate('/');
@@ -99,7 +102,7 @@ const RegistrationStep3 = () => {
                     color: red[400]
                   }}>
                   {' '}
-                  0120211103501237
+                  {vaccineRegistrationInfo.id}
                 </Typography>
               </Typography>
               <Typography
@@ -156,41 +159,41 @@ const RegistrationStep3 = () => {
             <BoxInfo>
               <BoxItem>
                 <TextLabel>Họ và tên</TextLabel>
-                <TextInfo>Nguyễn Văn A</TextInfo>
+                <TextInfo>{user.name}</TextInfo>
               </BoxItem>
               <BoxItem>
                 <TextLabel>Ngày sinh</TextLabel>
-                <TextInfo>16/10/1994</TextInfo>
+                <TextInfo>{userDoB}</TextInfo>
               </BoxItem>
               <BoxItem>
                 <TextLabel>Giới tính</TextLabel>
-                <TextInfo>Nam</TextInfo>
+                <TextInfo>{user.gender}</TextInfo>
               </BoxItem>
             </BoxInfo>
 
             <BoxInfo>
               <BoxItem>
                 <TextLabel>Số CMND/CCCD/Mã định danh công dân</TextLabel>
-                <TextInfo>030012345678</TextInfo>
+                <TextInfo>{user.identity_card}</TextInfo>
               </BoxItem>
               <BoxItem>
                 <TextLabel>Số thẻ BHYT</TextLabel>
-                <TextInfo>{insuranceInfo}</TextInfo>
+                <TextInfo>{vaccineRegistrationInfo.health_insurance}</TextInfo>
               </BoxItem>
             </BoxInfo>
 
             <BoxInfo>
               <BoxItem>
                 <TextLabel>Tỉnh/Thành phố</TextLabel>
-                <TextInfo>Thành phố Hà Nội</TextInfo>
+                <TextInfo>{user.ward.district.province.name}</TextInfo>
               </BoxItem>
               <BoxItem>
                 <TextLabel>Quận/Huyện</TextLabel>
-                <TextInfo>Quận Long Biên</TextInfo>
+                <TextInfo>{user.ward.district.name}</TextInfo>
               </BoxItem>
               <BoxItem>
                 <TextLabel>Xã/Phường</TextLabel>
-                <TextInfo>Phường Giang Biên</TextInfo>
+                <TextInfo>{user.ward.name}</TextInfo>
               </BoxItem>
             </BoxInfo>
           </PDFBox>

@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import CheckoutStep from './CheckoutStep';
 import Heading from './Heading';
 import { ArrowBack, ArrowForward } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import Hospital from '../../img/hospital_icon.png';
 import Shield from '../../img/shield_icon.png';
@@ -16,6 +16,9 @@ import {
   Button
 } from '@mui/material';
 import ContainerLayout from '../ContainerLayout';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { vaccineRegistrationAsync } from '../../features/user/vaccineRegistrationSlice';
+
 const BoxContainer = styled(Box)`
   padding: 36px;
 `;
@@ -41,6 +44,14 @@ const ButtonBox = styled(Box)`
   margin-bottom: 300px;
 `;
 const RegistrationStep2 = () => {
+  const user_id = useAppSelector((state) => state.user.value.user.id);
+  const vaccineRegistration = useAppSelector(
+    (state) => state.vaccineRegistration.vaccineRegistrationInfo
+  );
+  const dispatch = useAppDispatch();
+  const location: any = useLocation();
+  const data = location.state.data;
+  const vaccineRegistrationInfo = { ...data, user_id };
   const [check, setCheck] = useState(false);
 
   const navigate = useNavigate();
@@ -54,8 +65,10 @@ const RegistrationStep2 = () => {
   };
 
   const handleContinue = () => {
+    dispatch(vaccineRegistrationAsync(vaccineRegistrationInfo));
     navigate('/registration-step-3');
   };
+
   return (
     <>
       <Heading />

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CheckoutStep from './CheckoutStep';
 import Heading from './Heading';
 import styled from '@emotion/styled';
@@ -25,36 +25,42 @@ import { Controller, useForm } from 'react-hook-form';
 import FormHelperText from '@mui/material/FormHelperText';
 import ContainerLayout from '../ContainerLayout';
 import { useAppDispatch } from '../../app/hooks';
-import { vaccineRegistration } from '../../features/user/userSlice';
+// import { vaccineRegistration } from '../../features/user/userSlice';
+import { axiosInstance } from '../../requestMethod';
 
 interface RegistrationInfo {
-  group: string;
-  insurance: string;
-  job: string;
-  job_location: string;
+  group_id: number;
+  health_insurance: string;
+  occupation: string;
+  work_place: string;
   address: string;
-  date: string;
+  expected_date: string;
   session: string;
 }
 
+interface Group {
+  id: number;
+  name: string;
+}
+
 const defaultValues = {
-  group: '',
-  insurance: '',
-  job: '',
-  job_location: '',
+  group_id: 0,
+  health_insurance: '',
+  occupation: '',
+  work_place: '',
   address: '',
-  date: '',
+  expected_date: '',
   session: ''
 };
 
 const schema = yup
   .object({
-    group: yup.string().required('Group is required field'),
-    insurance: yup.string().required(),
-    job: yup.string().required(),
-    job_location: yup.string().required(),
+    group_id: yup.number().required('Group is required field'),
+    health_insurance: yup.string().required(),
+    occupation: yup.string().required(),
+    work_place: yup.string().required(),
     address: yup.string().required(),
-    date: yup.string().required('Date is required field'),
+    expected_date: yup.string().required('Date is required field'),
     session: yup.string().required()
   })
   .required();
@@ -92,6 +98,17 @@ const ButtonBox = styled(Box)`
   margin-bottom: 50px;
 `;
 const RegistrationStep1 = () => {
+  const [groups, setGroups] = useState<Group[]>([]);
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await axiosInstance.get<Group[]>('/groups');
+        setGroups(res.data);
+      } catch (err) {}
+    };
+    getData();
+  }, []);
+
   const {
     control,
     handleSubmit,
@@ -102,10 +119,12 @@ const RegistrationStep1 = () => {
     resolver: yupResolver(schema)
   });
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
   const handleContinue = (data: RegistrationInfo) => {
-    dispatch(vaccineRegistration(data));
-    navigate('/registration-step-2');
+    navigate('/registration-step-2', {
+      state: {
+        data
+      }
+    });
   };
 
   const handleCancel = () => {
@@ -133,12 +152,11 @@ const RegistrationStep1 = () => {
                   <BoxItem>
                     <LabelText>Nhóm ưu tiên (*)</LabelText>
                     <Controller
-                      name="group"
+                      name="group_id"
                       control={control}
                       render={({ field, fieldState: { error } }) => (
                         <FormControl sx={{ width: '100%' }}>
                           <Select
-                            defaultValue=""
                             size="small"
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
@@ -146,18 +164,11 @@ const RegistrationStep1 = () => {
                             onChange={(event) => {
                               field.onChange(event.target.value);
                             }}>
-                            <MenuItem value={'group-person-1'}>
-                              1. Người làm việc trong các cơ sở y tế, ngành y tế
-                            </MenuItem>
-                            <MenuItem value={'group-person-2'}>
-                              2. Lực lượng quân đội
-                            </MenuItem>
-                            <MenuItem value={'group-person-3'}>
-                              3. Lực lượng công an
-                            </MenuItem>
-                            <MenuItem value={'group-person-4'}>
-                              4. Người lao động tự do
-                            </MenuItem>
+                            {groups.map((group, index) => (
+                              <MenuItem key={index} value={group.id}>
+                                {`${index + 1}. ${group.name}`}
+                              </MenuItem>
+                            ))}
                           </Select>
                           {error && (
                             <FormHelperText sx={{ color: 'red' }}>
@@ -174,7 +185,7 @@ const RegistrationStep1 = () => {
                   <BoxItem>
                     <LabelText>Số thẻ BHYT</LabelText>
                     <Controller
-                      name="insurance"
+                      name="health_insurance"
                       control={control}
                       render={({ field, fieldState: { error } }) => (
                         <TextField
@@ -197,7 +208,7 @@ const RegistrationStep1 = () => {
                   <BoxItem>
                     <LabelText>Nghề nghiệp</LabelText>
                     <Controller
-                      name="job"
+                      name="occupation"
                       control={control}
                       render={({ field, fieldState: { error } }) => (
                         <TextField
@@ -218,7 +229,7 @@ const RegistrationStep1 = () => {
                   <BoxItem>
                     <LabelText>Đơn vị công tác</LabelText>
                     <Controller
-                      name="job_location"
+                      name="work_place"
                       control={control}
                       render={({ field, fieldState: { error } }) => (
                         <TextField
@@ -276,7 +287,7 @@ const RegistrationStep1 = () => {
                     <LabelText>Ngày muốn được tiêm (dự kiến)</LabelText>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                       <Controller
-                        name="date"
+                        name="expected_date"
                         control={control}
                         render={({ field, fieldState: { error } }) => (
                           <FormControl sx={{ width: '100%' }}>
@@ -317,9 +328,10 @@ const RegistrationStep1 = () => {
                             onChange={(event) => {
                               field.onChange(event.target.value);
                             }}>
-                            <MenuItem value={'morning'}>Buổi sáng</MenuItem>
-                            <MenuItem value={'afternoon'}>Buổi chiều</MenuItem>
-                            <MenuItem value={'allday'}>Cả ngày</MenuItem>
+                            <MenuItem value={'Buổi sáng'}>Buổi sáng</MenuItem>
+                            <MenuItem value={'Buổi chiều'}>Buổi chiều</MenuItem>
+                            <MenuItem value={'Buổi tối'}>Buổi tối</MenuItem>
+                            <MenuItem value={'Cả ngày'}>Cả ngày</MenuItem>
                           </Select>
                           {error && (
                             <FormHelperText sx={{ color: 'red' }}>
