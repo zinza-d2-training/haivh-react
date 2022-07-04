@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import {
   Box,
@@ -19,6 +19,8 @@ import date from '../../img/date.png';
 import cmnd from '../../img/cmnd.png';
 import person from '../../img/person.png';
 import { useNavigate } from 'react-router-dom';
+import { axiosInstanceWithToken } from '../../requestMethod';
+import { useAppSelector } from '../../app/hooks';
 
 function createData(
   id: number,
@@ -106,7 +108,40 @@ const CertificateInfoItem = styled(Box)`
   margin: 16px 0;
 `;
 
+export interface User {
+  name: string;
+  dob: string;
+  identity_card: string;
+  gender: string;
+  ward: {
+    id: number | string;
+    name: string;
+    district_id: number | string;
+    district: {
+      id: number | string;
+      name: string;
+      province_id: number | string;
+      province: {
+        id: number | string;
+        name: string;
+      };
+    };
+  };
+}
 const VaccineCertificate = () => {
+  const [data, setData] = useState<User>();
+  const user = useAppSelector((state) => state.user.value.user);
+  const userDoB = new Date(user.dob).toLocaleDateString('en-GB');
+  const userId = user.id;
+  useEffect(() => {
+    const getUserInfo = async () => {
+      try {
+        const res = await axiosInstanceWithToken.get(`users/${userId}`);
+        setData(res.data);
+      } catch (err) {}
+    };
+    getUserInfo();
+  }, [userId]);
   const navigate = useNavigate();
   const handleRegister = () => {
     navigate('/registration-step-1');
@@ -141,15 +176,15 @@ const VaccineCertificate = () => {
         <InfoBox>
           <ItemBox>
             <LabelText>Họ và tên</LabelText>
-            <InfoText>Nguyễn Văn A</InfoText>
+            <InfoText>{data?.name}</InfoText>
           </ItemBox>
           <ItemBox>
             <LabelText>Ngày sinh</LabelText>
-            <InfoText>16/10/1994</InfoText>
+            <InfoText>{userDoB}</InfoText>
           </ItemBox>
           <ItemBox>
             <LabelText>Số CMND/CCCD</LabelText>
-            <InfoText>030012345678</InfoText>
+            <InfoText>{data?.identity_card}</InfoText>
           </ItemBox>
           <ItemBox>
             <LabelText>Số thẻ BHYT</LabelText>
@@ -163,7 +198,7 @@ const VaccineCertificate = () => {
           Địa chỉ
         </LabelText>
         <InfoText>
-          Phường Giang Biên - Quận Long Biên - Thành phố Hà Nội
+          {`${data?.ward.name} - ${data?.ward.district.name} - ${data?.ward.district.province.name}`}
         </InfoText>
         <LabelText
           sx={{

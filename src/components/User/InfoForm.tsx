@@ -18,6 +18,10 @@ import { DatePicker, LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
 import Create from '../../img/Create.png';
+import { User } from './VaccineCertificate';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { axiosInstance, axiosInstanceWithToken } from '../../requestMethod';
+import { updateInfoAsync } from '../../features/user/updateInfoSlice';
 
 const InfoBox = styled(Box)``;
 const HeaderText = styled(Typography)`
@@ -43,24 +47,24 @@ const ButtonBox = styled(Box)`
 `;
 
 interface Info {
-  identity_card: string;
-  name: string;
-  dob: string;
-  gender: string;
+  identity_card: string | undefined;
+  name: string | undefined;
+  dob: string | undefined;
+  gender: string | undefined;
   province_id: number | string;
   district_id: number | string;
   ward_id: number | string;
 }
 
-const defaultValues = {
-  identity_card: '123456789',
-  name: 'Nguyễn Văn A',
-  dob: '05/31/2022',
-  gender: 'male',
-  province_id: 1,
-  district_id: 1,
-  ward_id: 1
-};
+// const defaultValues = {
+//   identity_card: '123456789',
+//   name: 'Nguyễn Văn A',
+//   dob: '05/31/2022',
+//   gender: 'male',
+//   province_id: 1,
+//   district_id: 1,
+//   ward_id: 1
+// };
 
 interface Ward {
   id: number;
@@ -80,88 +84,88 @@ interface Province {
   districts: District[];
 }
 
-const provinces: Province[] = [
-  {
-    id: 1,
-    name: 'Hà Nội',
-    districts: [
-      {
-        id: 1,
-        name: 'Hoàn Kiếm',
-        province_id: 1,
-        wards: [
-          {
-            id: 1,
-            name: 'Chương Dương',
-            district_id: 1
-          },
-          {
-            id: 2,
-            name: 'Cửa Nam',
-            district_id: 1
-          }
-        ]
-      },
-      {
-        id: 2,
-        name: 'Hà Đông',
-        province_id: 1,
-        wards: [
-          {
-            id: 1,
-            name: 'La Khê',
-            district_id: 2
-          },
-          {
-            id: 2,
-            name: 'Nguyễn Trãi',
-            district_id: 2
-          }
-        ]
-      }
-    ]
-  },
-  {
-    id: 2,
-    name: 'Hồ Chí Minh',
-    districts: [
-      {
-        id: 1,
-        name: 'Quận 1',
-        province_id: 2,
-        wards: [
-          {
-            id: 1,
-            name: 'Bến Nghé',
-            district_id: 1
-          },
-          {
-            id: 2,
-            name: 'Bến Thành',
-            district_id: 1
-          }
-        ]
-      },
-      {
-        id: 2,
-        name: 'Quận 2',
-        province_id: 2,
-        wards: [
-          {
-            id: 1,
-            name: 'An Khánh',
-            district_id: 2
-          },
-          {
-            id: 2,
-            name: 'An Phú',
-            district_id: 2
-          }
-        ]
-      }
-    ]
-  }
-];
+// const provinces: Province[] = [
+//   {
+//     id: 1,
+//     name: 'Hà Nội',
+//     districts: [
+//       {
+//         id: 1,
+//         name: 'Hoàn Kiếm',
+//         province_id: 1,
+//         wards: [
+//           {
+//             id: 1,
+//             name: 'Chương Dương',
+//             district_id: 1
+//           },
+//           {
+//             id: 2,
+//             name: 'Cửa Nam',
+//             district_id: 1
+//           }
+//         ]
+//       },
+//       {
+//         id: 2,
+//         name: 'Hà Đông',
+//         province_id: 1,
+//         wards: [
+//           {
+//             id: 1,
+//             name: 'La Khê',
+//             district_id: 2
+//           },
+//           {
+//             id: 2,
+//             name: 'Nguyễn Trãi',
+//             district_id: 2
+//           }
+//         ]
+//       }
+//     ]
+//   },
+//   {
+//     id: 2,
+//     name: 'Hồ Chí Minh',
+//     districts: [
+//       {
+//         id: 1,
+//         name: 'Quận 1',
+//         province_id: 2,
+//         wards: [
+//           {
+//             id: 1,
+//             name: 'Bến Nghé',
+//             district_id: 1
+//           },
+//           {
+//             id: 2,
+//             name: 'Bến Thành',
+//             district_id: 1
+//           }
+//         ]
+//       },
+//       {
+//         id: 2,
+//         name: 'Quận 2',
+//         province_id: 2,
+//         wards: [
+//           {
+//             id: 1,
+//             name: 'An Khánh',
+//             district_id: 2
+//           },
+//           {
+//             id: 2,
+//             name: 'An Phú',
+//             district_id: 2
+//           }
+//         ]
+//       }
+//     ]
+//   }
+// ];
 
 const schema = yup
   .object({
@@ -177,7 +181,45 @@ const schema = yup
     ward_id: yup.number().required().min(1, 'Thông tin không được để trống')
   })
   .required();
+
 const InfoForm = () => {
+  const dispatch = useAppDispatch();
+  const [data, setData] = useState<User>();
+  const [subdivisions, setSubdivisions] = useState<Province[]>([]);
+  const user = useAppSelector((state) => state.user.value.user);
+  const userId = user.id;
+  useEffect(() => {
+    const getUserInfo = async () => {
+      try {
+        const res = await axiosInstanceWithToken.get(`users/${userId}`);
+        setData(res.data);
+      } catch (err) {}
+    };
+    getUserInfo();
+  }, [userId]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await axiosInstance.get<Province[]>('/subdivisions');
+        setSubdivisions(res.data);
+      } catch (err) {}
+    };
+    getData();
+  }, []);
+
+  const provinces: Province[] = subdivisions;
+
+  const defaultValues: Info = {
+    name: data?.name || '',
+    identity_card: data?.identity_card || '',
+    dob: data?.dob || '',
+    gender: data?.gender || '',
+    province_id: data?.ward.district.province_id || '',
+    district_id: data?.ward.district_id || '',
+    ward_id: data?.ward.id || ''
+  };
+
   const {
     control,
     handleSubmit,
@@ -211,7 +253,7 @@ const InfoForm = () => {
     return (
       provinces.find((province) => province.id === provinceId)?.districts ?? []
     );
-  }, [provinceId]);
+  }, [provinceId, provinces]);
 
   const wards = useMemo(() => {
     return (
@@ -227,7 +269,9 @@ const InfoForm = () => {
     setShowCreate(false);
   };
 
-  const onSubmit = (data: Info) => {
+  const onSubmit = async (data: Info) => {
+    const { district_id, province_id, ...userInfo } = data;
+    dispatch(updateInfoAsync({ userInfo, userId }));
     setDisable(true);
     setShowCreate(true);
   };
@@ -355,7 +399,6 @@ const InfoForm = () => {
                   <FormControl sx={{ width: '100%' }}>
                     <Select
                       disabled={disable}
-                      defaultValue={defaultValues.gender}
                       size="small"
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
@@ -363,8 +406,8 @@ const InfoForm = () => {
                       onChange={(event) => {
                         field.onChange(event.target.value);
                       }}>
-                      <MenuItem value={'male'}>Nam</MenuItem>
-                      <MenuItem value={'female'}>Nữ</MenuItem>
+                      <MenuItem value={'nam'}>Nam</MenuItem>
+                      <MenuItem value={'nữ'}>Nữ</MenuItem>
                     </Select>
                     {error && (
                       <FormHelperText sx={{ color: 'red' }}>
@@ -389,7 +432,6 @@ const InfoForm = () => {
                   <FormControl sx={{ width: '100%' }}>
                     <Select
                       disabled={disable}
-                      defaultValue={defaultValues.province_id}
                       size="small"
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
@@ -424,7 +466,6 @@ const InfoForm = () => {
                   <FormControl sx={{ width: '100%' }}>
                     <Select
                       disabled={disable}
-                      defaultValue={defaultValues.district_id}
                       size="small"
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
@@ -459,7 +500,6 @@ const InfoForm = () => {
                   <FormControl sx={{ width: '100%' }}>
                     <Select
                       disabled={disable}
-                      defaultValue={defaultValues.ward_id}
                       size="small"
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
