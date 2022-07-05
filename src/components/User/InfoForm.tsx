@@ -47,10 +47,10 @@ const ButtonBox = styled(Box)`
 `;
 
 interface Info {
-  identity_card: string | undefined;
-  name: string | undefined;
-  dob: string | undefined;
-  gender: string | undefined;
+  identity_card?: string;
+  name?: string;
+  dob?: string;
+  gender?: string;
   province_id: number | string;
   district_id: number | string;
   ward_id: number | string;
