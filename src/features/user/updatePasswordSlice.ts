@@ -1,10 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { axiosInstanceWithToken } from '../../requestMethod';
-
-// export interface UpdatePassword {
-//  password: string;
-// }
-
 export interface UpdatePasswordState {
   password: string;
   status: 'idle' | 'pending' | 'succeeded' | 'failed';
