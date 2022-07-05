@@ -20,6 +20,8 @@ import registerReducer from '../features/user/registerSlice';
 import forgotPasswordReducer from '../features/user/forgotPasswordSlice';
 import updateVaccinationReducer from '../features/vaccine/sitesSlice';
 import vaccineRegistrationReducer from '../features/user/vaccineRegistrationSlice';
+import updateInfoReducer from '../features/user/updateInfoSlice';
+import updatePasswordReducer from '../features/user/updatePasswordSlice';
 const persistConfig = {
   key: 'root',
   version: 1,
@@ -32,7 +34,9 @@ const rootReducer = combineReducers({
   register: registerReducer,
   forgotPassword: forgotPasswordReducer,
   updateSite: updateVaccinationReducer,
-  vaccineRegistration: vaccineRegistrationReducer
+  vaccineRegistration: vaccineRegistrationReducer,
+  updateInfo: updateInfoReducer,
+  updatePassword: updatePasswordReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -15,6 +15,8 @@ import { Controller, useForm } from 'react-hook-form';
 
 import Create from '../../img/Create.png';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { updatePasswordAsync } from '../../features/user/updatePasswordSlice';
 
 const PasswordBox = styled(Box)``;
 
@@ -61,6 +63,9 @@ const schema = yup
   })
   .required();
 const PasswordForm = () => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user.value.user);
+  const userId = user.id;
   const {
     control,
     handleSubmit,
@@ -93,6 +98,8 @@ const PasswordForm = () => {
   };
 
   const onSubmit = (data: Password) => {
+    const { password_confirm, password } = data;
+    dispatch(updatePasswordAsync({ password, userId }));
     setDisable(true);
     setShowCreate(true);
   };
