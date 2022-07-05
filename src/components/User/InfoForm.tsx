@@ -55,17 +55,6 @@ interface Info {
   district_id: number | string;
   ward_id: number | string;
 }
-
-// const defaultValues = {
-//   identity_card: '123456789',
-//   name: 'Nguyễn Văn A',
-//   dob: '05/31/2022',
-//   gender: 'male',
-//   province_id: 1,
-//   district_id: 1,
-//   ward_id: 1
-// };
-
 interface Ward {
   id: number;
   name: string;
@@ -84,89 +73,6 @@ interface Province {
   districts: District[];
 }
 
-// const provinces: Province[] = [
-//   {
-//     id: 1,
-//     name: 'Hà Nội',
-//     districts: [
-//       {
-//         id: 1,
-//         name: 'Hoàn Kiếm',
-//         province_id: 1,
-//         wards: [
-//           {
-//             id: 1,
-//             name: 'Chương Dương',
-//             district_id: 1
-//           },
-//           {
-//             id: 2,
-//             name: 'Cửa Nam',
-//             district_id: 1
-//           }
-//         ]
-//       },
-//       {
-//         id: 2,
-//         name: 'Hà Đông',
-//         province_id: 1,
-//         wards: [
-//           {
-//             id: 1,
-//             name: 'La Khê',
-//             district_id: 2
-//           },
-//           {
-//             id: 2,
-//             name: 'Nguyễn Trãi',
-//             district_id: 2
-//           }
-//         ]
-//       }
-//     ]
-//   },
-//   {
-//     id: 2,
-//     name: 'Hồ Chí Minh',
-//     districts: [
-//       {
-//         id: 1,
-//         name: 'Quận 1',
-//         province_id: 2,
-//         wards: [
-//           {
-//             id: 1,
-//             name: 'Bến Nghé',
-//             district_id: 1
-//           },
-//           {
-//             id: 2,
-//             name: 'Bến Thành',
-//             district_id: 1
-//           }
-//         ]
-//       },
-//       {
-//         id: 2,
-//         name: 'Quận 2',
-//         province_id: 2,
-//         wards: [
-//           {
-//             id: 1,
-//             name: 'An Khánh',
-//             district_id: 2
-//           },
-//           {
-//             id: 2,
-//             name: 'An Phú',
-//             district_id: 2
-//           }
-//         ]
-//       }
-//     ]
-//   }
-// ];
-
 const schema = yup
   .object({
     identity_card: yup.string().required(),
@@ -184,19 +90,10 @@ const schema = yup
 
 const InfoForm = () => {
   const dispatch = useAppDispatch();
-  const [data, setData] = useState<User>();
+  const [data, setData] = useState<Info>();
   const [subdivisions, setSubdivisions] = useState<Province[]>([]);
   const user = useAppSelector((state) => state.user.value.user);
   const userId = user.id;
-  useEffect(() => {
-    const getUserInfo = async () => {
-      try {
-        const res = await axiosInstanceWithToken.get(`users/${userId}`);
-        setData(res.data);
-      } catch (err) {}
-    };
-    getUserInfo();
-  }, [userId]);
 
   useEffect(() => {
     const getData = async () => {
@@ -211,13 +108,13 @@ const InfoForm = () => {
   const provinces: Province[] = subdivisions;
 
   const defaultValues: Info = {
-    name: data?.name || '',
-    identity_card: data?.identity_card || '',
-    dob: data?.dob || '',
-    gender: data?.gender || '',
-    province_id: data?.ward.district.province_id || '',
-    district_id: data?.ward.district_id || '',
-    ward_id: data?.ward.id || ''
+    name: user.name,
+    identity_card: user.identity_card,
+    dob: user.dob,
+    gender: user.gender,
+    province_id: user.ward.district.province.id,
+    district_id: user.ward.district.id,
+    ward_id: user.ward.id
   };
 
   const {
@@ -232,6 +129,26 @@ const InfoForm = () => {
     mode: 'onChange',
     resolver: yupResolver(schema)
   });
+
+  useEffect(() => {
+    const getUserInfo = async () => {
+      try {
+        const res = await axiosInstanceWithToken.get(`users/${userId}`);
+        const info: Info = {
+          name: res.data.name,
+          identity_card: res.data.identity_card,
+          dob: res.data.dob,
+          gender: res.data.gender,
+          province_id: res.data.ward.district.province_id,
+          district_id: res.data.ward.district_id,
+          ward_id: res.data.ward_id
+        };
+        reset(info);
+        setData(info);
+      } catch (err) {}
+    };
+    getUserInfo();
+  }, [reset, userId]);
 
   const provinceId = watch('province_id');
   const districtId = watch('district_id');
@@ -277,7 +194,7 @@ const InfoForm = () => {
   };
 
   const handleCancel = () => {
-    reset(defaultValues);
+    reset(data);
     setDisable(true);
     setShowCreate(true);
   };
