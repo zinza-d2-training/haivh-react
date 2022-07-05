@@ -2,13 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { axiosInstanceWithToken } from '../../requestMethod';
 
 export interface UpdateInfo {
-  name: string;
-  identity_card: string;
-  dob: string;
-  gender: string;
-  province_id: number;
-  district_id: number;
-  ward_id: number;
+  userInfo: {};
+  userId: number;
 }
 
 export interface UpdateInfoState {
@@ -19,13 +14,8 @@ export interface UpdateInfoState {
 
 const initialState: UpdateInfoState = {
   value: {
-    name: '',
-    identity_card: '',
-    dob: '',
-    gender: '',
-    province_id: 0,
-    district_id: 0,
-    ward_id: 0
+    userInfo: {},
+    userId: 0
   },
   status: 'idle',
   loading: false
@@ -33,9 +23,12 @@ const initialState: UpdateInfoState = {
 
 export const updateInfoAsync = createAsyncThunk(
   'user/updateInfo',
-  async (info: any) => {
+  async (info: UpdateInfo) => {
     const { userInfo, userId } = info;
-    const res = await axiosInstanceWithToken.patch(`users/${userId}`, userInfo);
+    const res = await axiosInstanceWithToken.patch<UpdateInfo>(
+      `users/${userId}`,
+      userInfo
+    );
     return res.data;
   }
 );
