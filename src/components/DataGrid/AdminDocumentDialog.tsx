@@ -16,7 +16,7 @@ import { Row } from '../Admin/Document';
 
 const schema = yup
   .object({
-    name: yup.string().required(),
+    description: yup.string().required(),
     link: yup.string().required()
   })
   .required();
@@ -89,7 +89,7 @@ const AdminDocumentDialog = ({ data, onSubmit, onClose }: Props) => {
         <Box mb={3}>
           <Typography mb={0.625}>Tên tài liệu</Typography>
           <Controller
-            name="name"
+            name="description"
             control={control}
             render={({ field, fieldState: { error } }) => (
               <TextField
