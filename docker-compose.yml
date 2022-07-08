@@ -1,0 +1,18 @@
+version: '2.6.1'
+
+services:
+  app:
+    container_name: covid19-clone-reactjs-app
+    networks:
+      - covid19-clone-reactjs-network
+    tty: true
+    stdin_open: true
+    build: ./docker/app
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/app
+
+networks:
+  covid19-clone-reactjs-network:
+    driver: bridge
