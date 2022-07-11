@@ -9,7 +9,7 @@ services:
     stdin_open: true
     build: ./docker/app
     ports:
-      - '3000:3000'
+      - ${REACT_HOST_PORT}:${PORT}
     volumes:
       - .:/app
 
